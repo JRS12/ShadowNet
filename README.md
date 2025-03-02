@@ -1,2 +1,2 @@
-# Honeypot
-Honeypot: A Strategic Cyber Deception Mechanism
+# ShadowNet
+ShadowNet: A Strategic Cyber Deception Honeypot
