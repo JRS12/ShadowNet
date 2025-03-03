@@ -1,3 +1,4 @@
+# ShadowNet
 ShadowNet: A Strategic Cyber Deception Honeypot
 
 ShadowNet is an advanced cyber deception honeypot designed to lure, identify, and analyze cyber threats in a controlled environment. Unlike traditional security tools, ShadowNet actively engages attackers, capturing real-time data on their tactics, techniques, and procedures (TTPs). This project is built to provide cybersecurity professionals, researchers, and organizations with a powerful threat intelligence system to study real-world attacks, enhance detection capabilities, and develop stronger defense mechanisms. By simulating vulnerable services, ShadowNet ensures proactive security, allowing users to monitor unauthorized access attempts, analyze exploit methods, and gain valuable insights into evolving cyber threats.It is engineered for authenticity, efficiency, and security, making it an essential tool for penetration testers, SOC analysts, and cyber forensics experts to stay ahead of adversaries. 
