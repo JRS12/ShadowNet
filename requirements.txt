@@ -1,1 +1,38 @@
+1. Core Frameworks & Web Technologies
 
+Django==5.0.6           # Web framework for Python  
+Flask==3.0.3            # Lightweight web framework  
+Werkzeug==3.0.3         # WSGI toolkit for Flask  
+Jinja2==3.1.4           # Templating engine for Flask & Django  
+MarkupSafe==2.1.5       # Provides security for Jinja2 templates  
+sqlparse==0.5.0         # SQL parsing for Django ORM  
+tzdata==2024.1          # Timezone support for Django  
+
+
+2. Security & Cryptography
+
+bcrypt==4.1.3           # Secure password hashing  
+cffi==1.16.0            # Foreign function interface (used in cryptography)  
+cryptography==42.0.8    # Cryptographic functions for secure communication  
+PyNaCl==1.5.0           # Networking & encryption (used by Paramiko)  
+paramiko==3.4.0         # SSH protocol implementation for secure connections 
+
+
+3. Networking & Protocol Handling
+
+pyftpdlib==1.5.10       # FTP server library for honeypots  
+requests==2.32.3        # HTTP requests handling  
+urllib3==2.2.2          # HTTP client for network communication  
+idna==3.7               # Internationalized domain name support 
+
+
+4. Utility & Compatibility Libraries
+
+asgiref==3.8.1          # Asynchronous support for Django  
+blinker==1.8.2         # Signals framework (used in Flask)  
+certifi==2024.6.2       # SSL certificate validation  
+charset-normalizer==3.3.2  # Handles text encoding  
+click==8.1.7            # Command-line utilities (used in Flask)  
+colorama==0.4.6         # Cross-platform text coloring in terminal  
+itsdangerous==2.2.0     # Secure token handling (used in Flask)  
+pycparser==2.22         # Used for C-based parsing in cffi  
