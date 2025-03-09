@@ -1,0 +1,93 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .bg {
+    width: 100vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-image: url("../Images/Admin_BG.jpg");
+    background-size: 100% 100%;
+    background-position: center;
+    font-family: "Anonymous Pro", monospace;
+    font-weight: 400;
+    font-style: normal;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container {
+    height: 60%;
+    width: 30%;
+    background: rgba(
+      26,
+      43,
+      60,
+      0.8
+    ); /* Use rgba to control background opacity */
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  h1 {
+    font-size: 3.5em;
+    color: #a6e3e9;
+    text-shadow: 2px 2px 5px #a6e3e9;
+    margin-bottom: 10px;
+  }
+  p {
+    color: #d3dce6;
+    /* margin-top: 5px; */
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+  }
+  input {
+    background-color: #1e2d3d;
+    border: 2px solid #2de2e6;
+    color: #d0d9e0;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    width: 100%;
+  }
+  input:focus,
+  input:active {
+      outline: none;
+    border: 2px solid cyan; /* Cyan border on focus */
+    box-shadow: 0px 0px 10px rgba(45, 226, 230, 0.8); /* Adds a glow effect */
+    background-color: #253544; /* Slightly lighter background on focus */
+  }
+  
+  input::placeholder {
+    color: #88aabb; /* Light cyan-gray color */
+    opacity: 0.7; /* Adjust transparency */
+  }
+  
+  button {
+    background-color: #00E5FF;
+    color: #081826;
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 90px;
+    margin-top: 30px;
+    width: 70%;
+    font-family: "Anonymous Pro", monospace;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 1.2rem;
+  }
+  
+  button:hover {
+    background-color: #04a5da;
+  }
+  
