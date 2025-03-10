@@ -4,18 +4,14 @@ import hashlib
 import json
 import secrets
 from flask import Flask, render_template, request, redirect, url_for, session
+from datetime import timedelta
 
-# File paths
 CREDENTIALS_FILE = "backend/admin_credentials.json"
 SECRET_KEY_FILE = "backend/secret_key.txt"
 
-# Initialize Flask App (Fix static and template folders)
-app = Flask(__name__, static_folder="static", template_folder="templates")
+app = Flask(__name__, static_folder="Frontend/Statics", template_folder="Frontend/Templates")
 
-
-# 🔹 Generate Secret Key Per Device 🔹
 def generate_secret_key():
-    """Generate and store a secure secret key."""
     if not os.path.exists(SECRET_KEY_FILE):
         secret_key = secrets.token_hex(32)
         with open(SECRET_KEY_FILE, "w") as f:
@@ -25,17 +21,13 @@ def generate_secret_key():
             secret_key = f.read().strip()
     return secret_key
 
-
-# Set Flask secret key
 app.secret_key = generate_secret_key()
 
+app.permanent_session_lifetime = timedelta(minutes=30)
 
-# 🔹 Password Hashing Function 🔹
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
-
-
-# 🔹 Migrate Function (Future Use) 🔹
+ 
 def migrate():
     print("[+] Running database migrations...")
     os.makedirs(os.path.dirname(CREDENTIALS_FILE), exist_ok=True)
@@ -44,8 +36,6 @@ def migrate():
             json.dump({}, f)
     print("[✔] Migration complete!")
 
-
-# 🔹 Create Superuser Function 🔹
 def create_superuser():
     username = input("Enter admin username: ")
     password = input("Enter admin password: ")
@@ -63,8 +53,6 @@ def create_superuser():
 
     print("[+] Admin user created successfully!")
 
-
-# 🔹 Admin Login Route 🔹
 @app.route("/", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
@@ -74,29 +62,36 @@ def admin_login():
         if not os.path.exists(CREDENTIALS_FILE):
             return "Error: No superuser found. Run 'python setup.py createsuperuser' first."
 
-        with open(CREDENTIALS_FILE, "r") as f:
-            stored_credentials = json.load(f)
+        try:
+            with open(CREDENTIALS_FILE, "r") as f:
+                stored_credentials = json.load(f)
+        except json.JSONDecodeError:
+            return "Error: Corrupt credentials file. Delete and recreate it."
 
         if username == stored_credentials.get("username") and hash_password(password) == stored_credentials.get(
             "password"
         ):
             session["user"] = username
+            session.permanent = True  
             return redirect(url_for("admin_dashboard"))
         else:
             return "Invalid username or password. Try again."
 
+    if not os.path.exists(os.path.join(app.template_folder, "admin_login.html")):
+        return "Error: Missing admin_login.html template file."
+
     return render_template("admin_login.html")
-
-
-# 🔹 Dashboard Route 🔹
+ 
 @app.route("/dashboard")
 def admin_dashboard():
     if "user" not in session:
         return redirect(url_for("admin_login"))
+
+    if not os.path.exists(os.path.join(app.template_folder, "admin_dashboard.html")):
+        return "Error: Missing admin_dashboard.html template file."
+
     return render_template("admin_dashboard.html")
-
-
-# 🔹 Setup.py Command Line Interface 🔹
+ 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         command = sys.argv[1]
