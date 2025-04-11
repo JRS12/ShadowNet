@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SnapVault - Home</title>
+  <link rel="stylesheet" href="/static/css/website.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f9f9f9;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 60px;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 1rem;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+    }
+    .sidebar img.logo {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 2rem;
+    }
+    .sidebar i {
+      font-size: 20px;
+      margin: 1.5rem 0;
+      cursor: pointer;
+      color: #e63946;
+    }
+    .sidebar i.active {
+      font-weight: bold;
+    }
+    .topbar {
+      margin-left: 60px;
+      height: 50px;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 0.5rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    .topbar h2 {
+      font-weight: bold;
+      color: #e63946;
+      margin: 0 0.5rem;
+    }
+    .search-bar {
+      flex-grow: 1;
+      margin: 0 0.5rem;
+      position: relative;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 0.4rem 2rem;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+    }
+    .search-bar i {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: #aaa;
+    }
+    .profile-dropdown {
+      position: relative;
+    }
+    .profile-icon {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+    
+    .profile-menu {
+      display: none;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      overflow: hidden;
+      z-index: 1000;
+    }
+    .profile-menu a {
+      display: block;
+      padding: 10px 15px;
+      color: #333;
+      text-decoration: none;
+    }
+    .profile-menu a:hover {
+      background-color: #f0f0f0;
+    }
+    #profileSection {
+      display: none;
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      width: 300px;
+      z-index: 1001;
+    }
+    .masonry {
+      column-count: 4;
+      column-gap: 1rem;
+      margin-top: 0rem;
+      margin-left: 70px;
+      padding-right: 10px;
+    }
+    .masonry-item {
+      break-inside: avoid;
+      margin-bottom: 1rem;
+      position: relative;
+      cursor: pointer;
+    }
+    .masonry-item img {
+      width: 100%;
+      border-radius: 10px;
+      transition: 0.3s ease;
+    }
+    .like-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      padding: 0.3rem;
+      display: none;
+    }
+    .masonry-item:hover .like-btn {
+      display: block;
+    }
+    .modal-lg {
+      max-width: 1000px;
+    }
+    .image-modal img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .image-modal .caption {
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+    #profileSection {
+  display: none;
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  width: 300px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  padding: 20px;
+  z-index: 1001;
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <img src="/Honeypot/Static/Images/Icon.png" class="logo" alt="Logo">
+    <i class="bi bi-house-door active" title="Home" onclick="setActive(this); location.href='Home'"></i>
+    <i class="bi bi-plus-square" title="Create" onclick="setActive(this)" data-toggle="modal" data-target="#uploadModal"></i>
+</div>
+
+  <div class="topbar">
+    <h2>SnapVault</h2>
+    <div class="search-bar position-relative">
+      <i class="bi bi-search position-absolute" style="top: 50%; left: 10px; transform: translateY(-50%); color: #aaa;"></i>
+      <input id="searchInput" type="text" placeholder="Search by username" class="form-control pl-4" />
+    </div>
+    
+    
+<div class="profile-dropdown">
+  <img src="/Honeypot/Static/Images/Default-Profile.png" class="profile-icon" onclick="toggleDropdownMenu()" />
+  <div class="profile-menu" id="profileMenu">
+    <a href="#" onclick="toggleProfileSection(); return false;">Profile</a>
+    <a href="/Honeypot/Templates/Login.html">Logout</a>
+  </div>
+</div>
+
+  </div>
+
+  <div class="masonry-item" data-username="{{ photo.username }}">
+    <img src="/Honeypot/Static/Images/" alt="..." class="rounded-lg w-full" />
+  </div>
+  
+  <!-- Image View Modal -->
+<div class="modal fade" id="viewModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content p-3 image-modal d-flex flex-row">
+      <div class="w-50 pr-3">
+        <img id="modalImage" src="" alt="Photo">
+      </div>
+      <div class="w-50 d-flex flex-column justify-content-start">
+        <h5 id="modalUsername" class="mb-3">@username</h5>
+        <p><i class="bi bi-heart-fill text-danger"></i> <span id="likeCount">0</span> Likes</p>
+        <p id="modalCaption" class="caption text-muted"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div id="profileSection" class="card mt-2">
+    <div class="card-body">
+      <div class="text-center mb-3">
+        <img src="/static/images/default_profile.png" class="rounded-circle" width="80" height="80">
+        <div class="mt-2">
+          <input type="file" class="form-control-file">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" class="form-control" value="@username">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" value="user@example.com">
+      </div>
+      <div class="form-group">
+        <label>Old Password</label>
+        <input type="password" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>New Password</label>
+        <input type="password" class="form-control">
+      </div>
+      <button class="btn btn-primary btn-block">Save</button>
+    </div>
+  </div>
+
+  <div class="masonry" id="imageGallery">
+    <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample1.jpg" data-caption="Sample Caption 1">
+      <img src="/Honeypot/Static/Images/Sample1.jpg" alt="Sample">
+      <button class="like-btn"><i class="bi bi-heart"></i></button>
+    </div>
+    <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample2.jpg" data-caption="Sample Caption 2">
+      <img src="/Honeypot/Static/Images/Sample2.jpg" alt="Sample">
+      <button class="like-btn"><i class="bi bi-heart"></i></button>
+    </div>
+    <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample3.jpg" data-caption="Sample Caption 2">
+        <img src="/Honeypot/Static/Images/Sample3.jpg" alt="Sample">
+        <button class="like-btn"><i class="bi bi-heart"></i></button>
+      </div>
+      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample4.jpg" data-caption="Sample Caption 2">
+        <img src="/Honeypot/Static/Images/Sample4.jpg" alt="Sample">
+        <button class="like-btn"><i class="bi bi-heart"></i></button>
+      </div>
+      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample5.jpg" data-caption="Sample Caption 2">
+        <img src="/Honeypot/Static/Images/Sample5.jpg" alt="Sample">
+        <button class="like-btn"><i class="bi bi-heart"></i></button>
+      </div>
+      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample6.jpg" data-caption="Sample Caption 2">
+        <img src="/Honeypot/Static/Images/Sample6.jpg" alt="Sample">
+        <button class="like-btn"><i class="bi bi-heart"></i></button>
+      </div>
+      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample7.jpg" data-caption="Sample Caption 2">
+        <img src="/Honeypot/Static/Images/Sample7.jpg" alt="Sample">
+        <button class="like-btn"><i class="bi bi-heart"></i></button>
+      </div>
+      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample8.jpg" data-caption="Sample Caption 2">
+        <img src="/Honeypot/Static/Images/Sample8.jpg" alt="Sample">
+        <button class="like-btn"><i class="bi bi-heart"></i></button>
+      </div>
+      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample9.jpg" data-caption="Sample Caption 2">
+        <img src="/Honeypot/Static/Images/Sample9.jpg" alt="Sample">
+        <button class="like-btn"><i class="bi bi-heart"></i></button>
+      </div>
+      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample10.jpg" data-caption="Sample Caption 2">
+        <img src="/Honeypot/Static/Images/Sample10.jpg" alt="Sample">
+        <button class="like-btn"><i class="bi bi-heart"></i></button>
+      </div>
+  </div>
+  <div class="text-red-500 font-bold mb-4 border-l-4 border-red-500 pl-2">Home</div>
+  <button onclick="openUploadModal()" class="mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 hover:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+  </button>
+</div>
+
+  <!-- Upload Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content p-3">
+        <div class="modal-header">
+          <h5 class="modal-title">Create a Post</h5>
+          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <form id="uploadForm">
+            <div class="form-group">
+              <label for="postImage">Select Image</label>
+              <input type="file" class="form-control-file" id="postImage" required>
+            </div>
+            <div class="form-group">
+              <label for="caption">Caption</label>
+              <input type="text" class="form-control" id="caption" placeholder="Enter caption" required>
+            </div>
+            <button type="submit" class="btn btn-danger btn-block">Share</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function filterByUsername() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.masonry-item');
+  
+      cards.forEach(card => {
+        const username = card.getAttribute('data-username')?.toLowerCase() || '';
+        card.style.display = username.includes(input) ? 'block' : 'none';
+      });
+    }
+  
+    document.getElementById('searchInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        filterByUsername();
+      }
+    });
+  </script>
+  
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    $('#viewModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      var imageSrc = button.data('img');
+      var caption = button.data('caption');
+      var modal = $(this);
+      modal.find('#modalImage').attr('src', imageSrc);
+      modal.find('#modalCaption').text(caption);
+      modal.find('#likeCount').text(Math.floor(Math.random() * 10 + 1));
+    });
+
+    function setActive(element) {
+      document.querySelectorAll('.sidebar i').forEach(i => i.classList.remove('active'));
+      element.classList.add('active');
+    }
+
+    function toggleProfileSection() {
+      const section = document.getElementById('profileSection');
+      section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    }
+    function filterImages() {
+  const value = document.getElementById('searchInput').value.toLowerCase();
+  const items = document.querySelectorAll('.masonry-item');
+  items.forEach(item => {
+    const caption = item.getAttribute('data-caption')?.toLowerCase() || '';
+    if (caption.includes(value)) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+  </script>
+  <script>
+    function filterByUsername() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.masonry-item');
+      
+      cards.forEach(card => {
+        const username = card.getAttribute('data-username')?.toLowerCase() || '';
+        if (username.includes(input)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+    
+    // Also trigger search on Enter key
+    document.getElementById('searchInput').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        filterByUsername();
+      }
+    });
+    </script>
+    
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const imageInput = document.getElementById('postImage');
+      const caption = document.getElementById('caption').value;
+  
+      if (imageInput.files && imageInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const gallery = document.getElementById('imageGallery');
+          const newDiv = document.createElement('div');
+          newDiv.classList.add('masonry-item');
+          newDiv.setAttribute('data-toggle', 'modal');
+          newDiv.setAttribute('data-target', '#viewModal');
+          newDiv.setAttribute('data-img', e.target.result);
+          newDiv.setAttribute('data-caption', caption);
+  
+          newDiv.innerHTML = `
+            <img src="${e.target.result}" alt="User Upload">
+            <button class="like-btn"><i class="bi bi-heart"></i></button>
+          `;
+          gallery.prepend(newDiv);
+          $('#uploadModal').modal('hide');
+          document.getElementById('uploadForm').reset();
+        };
+        reader.readAsDataURL(imageInput.files[0]);
+      }
+    });
+  </script>
+  <script>
+    function toggleDropdownMenu() {
+      const menu = document.querySelector('.profile-menu');
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+  
+    // Optional: Close menu if clicked outside
+    window.addEventListener('click', function (e) {
+      const menu = document.querySelector('.profile-menu');
+      const icon = document.querySelector('.profile-icon');
+      if (!menu.contains(e.target) && e.target !== icon) {
+        menu.style.display = 'none';
+      }
+    });
+  </script>
+  <script>
+    // Close profile section when clicking outside
+    window.addEventListener('click', function (event) {
+      const profileSection = document.getElementById('profileSection');
+      const profileMenu = document.querySelector('.profile-menu');
+      const profileIcon = document.querySelector('.profile-icon');
+  
+      const clickedInsideProfile = profileSection.contains(event.target);
+      const clickedOnIcon = profileIcon.contains(event.target);
+      const clickedInsideMenu = profileMenu.contains(event.target);
+  
+      if (!clickedInsideProfile && !clickedOnIcon && !clickedInsideMenu) {
+        profileSection.style.display = 'none';
+        profileMenu.style.display = 'none';
+      }
+    });
+    
+  </script>
+  <script>
+    function handleSearch() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.image-card');
+  
+      cards.forEach(card => {
+        const username = card.getAttribute('data-username')?.toLowerCase() || '';
+        card.style.display = username.includes(query) ? 'block' : 'none';
+      });
+    }
+  </script>
+  <script>
+    function setActive(element) {
+      document.querySelectorAll('.sidebar i').forEach(i => i.classList.remove('active'));
+      element.classList.add('active');
+    }
+    </script>
+    
+  
+</body>
+
+</html>
