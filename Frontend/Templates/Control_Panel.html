@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Control Panel - ShadowNet</title>
+  <link rel="stylesheet" href="/Frontend/Statics/css/Contro_Panel.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex">
+  <div class="sidebar">
+    <h2>ShadowNet</h2>
+    <ul>
+      <li class="active" onclick="navigateTo('Control_Panel.html')">
+        <i class="fas fa-tachometer-alt"></i> Control Panel
+      </li>
+      <li onclick="navigateTo('System_Setup.html')">
+        <i class="fas fa-cogs"></i> System Setup
+      </li>
+      <li onclick="navigateTo('Web_Monitoring.html')">
+        <i class="fas fa-eye"></i> Web Monitoring
+      </li>
+      <li onclick="navigateTo('Network_Monitoring.html')">
+        <i class="fas fa-network-wired"></i> Network Monitoring
+      </li>
+      <li onclick="navigateTo('File_Forensics.html')">
+        <i class="fas fa-file-alt"></i> File Forensics
+      </li>
+      <li onclick="navigateTo('Image_Analysis.html')">
+        <i class="fas fa-image"></i> Image Analysis
+      </li>
+      <li onclick="navigateTo('Keystroke_Monitoring.html')">
+        <i class="fas fa-keyboard"></i> Keystroke Monitoring
+      </li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h1>Control Panel</h1>
+      <div class="top-right-rectangle" id="networkStatus">Safe</div>
+    </div>
+
+    <div class="system-health">
+      <div class="gauge-container">
+        <canvas id="gaugeCanvas" width="200" height="200"></canvas>
+        <div class="gauge-label" id="gaugeLabel">0%</div>
+      </div>
+    </div>
+
+    <div class="attack-decision">
+      <div class="attack-options">
+        <button onclick="setAttackStatus('UNDER ATTACK')">Trigger Attack</button>
+        <button onclick="setAttackStatus('SAFE')">Mark Safe</button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      &copy; 2025 ShadowNet Project. All rights reserved.
+    </footer>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+  <script src="/Frontend/Statics/js/Control_Panel.js"></script>
+</body>
+
+</html>

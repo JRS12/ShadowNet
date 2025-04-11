@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Web Monitoring Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/Frontend/Statics/css/Web_Monitoring.css">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>ShadowNet</h2>
+    <ul>
+      <li onclick="navigateTo('Control_Panel.html')"><span><i class="fas fa-tachometer-alt"></i> Control Panel</span></li>
+      <li onclick="navigateTo('System_Setup.html')"><span><i class="fas fa-cogs"></i> System Setup</span></li>
+      <li class="active"><span><i class="fas fa-eye"></i> Web Monitoring</span></li>
+      <li onclick="navigateTo('Network_Monitoring.html')"><span><i class="fas fa-network-wired"></i> Network Monitoring</span></li>
+      <li onclick="navigateTo('File_Forensics.html')"><span><i class="fas fa-file-alt"></i> File Forensics</span></li>
+      <li onclick="navigateTo('Image_Analysis.html')"><span><i class="fas fa-image"></i> Image Analysis</span></li>
+      <li onclick="navigateTo('Keystroke_Monitoring.html')"><span><i class="fas fa-keyboard"></i> Keystroke Monitoring</span></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h1>Web Monitoring</h1>
+      <div class="top-right-rectangle" id="webStatusIndicator">Safe</div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>IP Address</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>User ID</th>
+          <th>User Agent</th>
+          <th>Path Visited</th>
+          <th>Request Method</th>
+          <th>Response Code</th>
+          <th>Session</th>
+          <th>Account Type</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="/Frontend/Statics/js/Web_Monitoring.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Image Analysis Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/Frontend/Statics/css/Image_Analysis.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>ShadowNet</h2>
+        <ul>
+            <li onclick="navigateTo('Control_Panel.html')"><span><i class="fas fa-tachometer-alt"></i> Control Panel</span></li>
+            <li onclick="navigateTo('System_Setup.html')"><span><i class="fas fa-cogs"></i> System Setup</span></li>
+            <li onclick="navigateTo('Web_Monitoring.html')"><span><i class="fas fa-eye"></i> Web Monitoring</span></li>
+            <li onclick="navigateTo('Network_Monitoring.html')"><span><i class="fas fa-network-wired"></i> Network Monitoring</span></li>
+            <li onclick="navigateTo('File_Forensics.html')"><span><i class="fas fa-file-alt"></i> File Forensics</span></li>
+            <li class="active"><span><i class="fas fa-image"></i> Image Analysis</span></li>
+            <li onclick="navigateTo('Keystroke_Monitoring.html')"><span><i class="fas fa-keyboard"></i> Keystroke Monitoring</span></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <h1>Image Analysis</h1>
+            <div class="top-right-rectangle" id="networkStatus">Safe</div>
+        </div>
+        
+        <div class="table-wrapper">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>File Size (KB)</th>
+                            <th>File Type</th>
+                            <th>Image Width</th>
+                            <th>Image Height</th>
+                            <th>Color Space</th>
+                            <th>Bit Depth</th>
+                            <th>Compression</th>
+                            <th>DPI (Resolution)</th>
+                            <th>Camera Make</th>
+                            <th>Camera Model</th>
+                            <th>Lens Model</th>
+                            <th>Shutter Speed</th>
+                            <th>Aperture (F-Stop)</th>
+                            <th>ISO Speed</th>
+                            <th>Focal Length</th>
+                            <th>White Balance</th>
+                            <th>Flash Mode</th>
+                            <th>Exposure Mode</th>
+                            <th>Metering Mode</th>
+                            <th>Date/Time Original</th>
+                            <th>GPS Latitude</th>
+                            <th>GPS Longitude</th>
+                            <th>GPS Altitude</th>
+                            <th>Software Used</th>
+                            <th>Image Unique ID</th>
+                            <th>Author</th>
+                            <th>Copyright</th>
+                            <th>Thumbnail Available</th>
+                            <th>Digital Signature</th>
+                            <th>Detected Faces</th>
+                            <th>Noise Profile</th>
+                            <th>Scene Type</th>
+                            <th>Light Source</th>
+                            <th>Pixel Scale</th>
+                            <th>Camera Serial Number</th>
+                            <th>Owner Name</th>
+                            <th>Artist</th>
+                            <th>GPS Speed</th>
+                            <th>GPS Timestamp</th>
+                            <th>GPS Track</th>
+                            <th>XMP Toolkit</th>
+                            <th>Red Eye Correction</th>
+                            <th>ICC Profile</th>
+                            <th>Thumbnail Image</th>
+                            <th>Thumbnail Width</th>
+                            <th>Thumbnail Height</th>
+                            <th>Preview Image</th>
+                            <th>Copyright URL</th>
+                            <th>File Permissions</th>
+                            <th>Modified Date</th>
+                            <th>File Attributes</th>
+                            <th>MD5 Hash</th>
+                            <th>SHA-256 Hash</th>
+                            <th>Encryption</th>
+                            <th>Hidden Metadata</th>
+                            <th>File Signature</th>
+                            <th>Reverse Geolocation</th>
+                            <th>Camera Firmware</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>image1.jpg</td>
+                            <td>2048</td>
+                            <td>JPEG</td>
+                            <td>1920</td>
+                            <td>1080</td>
+                            <td>sRGB</td>
+                            <td>8-bit</td>
+                            <td>JPEG</td>
+                            <td>300 DPI</td>
+                            <td>Canon</td>
+                            <td>EOS 5D Mark IV</td>
+                            <td>Canon EF 24-70mm</td>
+                            <td>1/200 sec</td>
+                            <td>f/2.8</td>
+                            <td>400</td>
+                            <td>50mm</td>
+                            <td>Auto</td>
+                            <td>No Flash</td>
+                            <td>Manual</td>
+                            <td>Matrix</td>
+                            <td>2025-03-30 14:25:10</td>
+                            <td>40.7128° N</td>
+                            <td>74.0060° W</td>
+                            <td>15m</td>
+                            <td>Adobe Photoshop</td>
+                            <td>A1B2C3D4</td>
+                            <td>John Doe</td>
+                            <td>© 2025 John Doe</td>
+                            <td>Yes</td>
+                            <td>Verified</td>
+                            <td>2 Faces Detected</td>
+                            <td>High</td>
+                            <td>Outdoor</td>
+                            <td>Daylight</td>
+                            <td>0.026 mm</td>
+                            <td>12345678</td>
+                            <td>John Doe</td>
+                            <td>John Doe</td>
+                            <td>25 km/h</td>
+                            <td>12:35:45 UTC</td>
+                            <td>North</td>
+                            <td>XMP Core 5.6</td>
+                            <td>No</td>
+                            <td>Adobe RGB</td>
+                            <td>Yes</td>
+                            <td>160px</td>
+                            <td>120px</td>
+                            <td>Yes</td>
+                            <td>https://example.com/copyright</td>
+                            <td>Read/Write</td>
+                            <td>2025-03-30</td>
+                            <td>Hidden</td>
+                            <td>ABC123DEF</td>
+                            <td>XYZ789GHI</td>
+                            <td>AES-256</td>
+                            <td>Yes</td>
+                            <td>JFIF Header</td>
+                            <td>New York, USA</td>
+                            <td>1.0.5</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="/Frontend/Statics/js/Image_Analysis.js"></script>
+</body>
+</html>

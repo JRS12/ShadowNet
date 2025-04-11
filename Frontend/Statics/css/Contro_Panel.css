@@ -1,0 +1,134 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #0f0f0f;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background: #1a1a1a;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 20px;
+    color: white;
+  }
+  
+  .sidebar h2 {
+    text-align: center;
+    color: cyan;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+  }
+  
+  .sidebar ul li {
+    padding: 15px;
+    border-bottom: 1px solid #333;
+    border-radius: 8px;
+    margin: 8px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s;
+  }
+  
+  .sidebar ul li i {
+    margin-right: 10px;
+    color: cyan;
+  }
+  
+  .sidebar ul li.active,
+  .sidebar ul li:hover {
+    background: cyan;
+    color: black;
+  }
+  
+  .sidebar ul li.active i,
+  .sidebar ul li:hover i {
+    color: black;
+  }
+  
+  .main-content {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    color: cyan;
+  }
+  
+  .top-right-rectangle {
+    width: 150px;
+    height: 50px;
+    border: 2px solid cyan;
+    background: #1a1a1a;
+    color: cyan;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  }
+  
+  .system-health {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+  
+  .gauge-container {
+    position: relative;
+    text-align: center;
+  }
+  
+  .gauge-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: white;
+  }
+  
+  .attack-decision {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 60px;
+  }
+  
+  .attack-options button {
+    background-color: cyan;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .attack-options button:hover {
+    background-color: #00cccc;
+  }
+  
+  .footer {
+    text-align: center;
+    color: gray;
+    font-size: 14px;
+    margin-top: 50px;
+  }
+  

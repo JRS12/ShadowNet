@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>File Forensics Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+    <link rel="stylesheet" href="/Frontend/Statics/css/File_Forensics.css" />
+</head>
+<body>
+    <div class="sidebar">
+        <h2>ShadowNet</h2>
+        <ul>
+            <li onclick="navigateTo('Control_Panel.html')"><span><i class="fas fa-tachometer-alt"></i> Control Panel</span></li>
+            <li onclick="navigateTo('System_Setup.html')"><span><i class="fas fa-cogs"></i> System Setup</span></li>
+            <li onclick="navigateTo('Web_Monitoring.html')"><span><i class="fas fa-eye"></i> Web Monitoring</span></li>
+            <li onclick="navigateTo('Network_Monitoring.html')"><span><i class="fas fa-network-wired"></i> Network Monitoring</span></li>
+            <li class="active"><span><i class="fas fa-file-alt"></i> File Forensics</span></li>
+            <li onclick="navigateTo('Image_Analysis.html')"><span><i class="fas fa-image"></i> Image Analysis</span></li>
+            <li onclick="navigateTo('Keystroke_Monitoring.html')"><span><i class="fas fa-keyboard"></i> Keystroke Monitoring</span></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>File Forensics</h1>
+            <div class="top-right-rectangle" id="networkStatus">Safe</div>
+        </div>
+
+        <div class="table-wrapper">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Size (KB)</th>
+                            <th>Type of File</th>
+                            <th>Name</th>
+                            <th>Scan Total</th>
+                            <th>Reputation</th>
+                            <th>TLSH</th>
+                            <th>Last Analysis Stats</th>
+                            <th>Times Submitted</th>
+                            <th>SHA-256</th>
+                            <th>Last Submission Date</th>
+                            <th>Type Tag</th>
+                            <th>TRiD</th>
+                            <th>Unique Source</th>
+                            <th>Meaningful Name</th>
+                            <th>Tags</th>
+                            <th>Last Modification Date</th>
+                            <th>Type Description</th>
+                            <th>Magic</th>
+                            <th>First Submission Date</th>
+                            <th>SHA-1</th>
+                            <th>Last Analysis Date</th>
+                            <th>Type Extension</th>
+                            <th>Magika</th>
+                            <th>SSDEEP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>512</td>
+                            <td>Executable</td>
+                            <td>malware.exe</td>
+                            <td>64</td>
+                            <td>Low</td>
+                            <td>ABC123</td>
+                            <td>Clean</td>
+                            <td>10</td>
+                            <td>XYZ789</td>
+                            <td>2025-03-30</td>
+                            <td>PE32</td>
+                            <td>EXE</td>
+                            <td>2</td>
+                            <td>Trojan.Win32</td>
+                            <td>Virus, Malware</td>
+                            <td>2025-03-29</td>
+                            <td>Windows Executable</td>
+                            <td>MZ Header</td>
+                            <td>2025-03-28</td>
+                            <td>DEF456</td>
+                            <td>2025-03-30</td>
+                            <td>exe</td>
+                            <td>PE File</td>
+                            <td>GHI789</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="/Frontend/Statics/js/File_Forensics.js"></script>
+</body>
+</html>
