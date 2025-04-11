@@ -7,14 +7,14 @@
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="/static/css/login.css">
+  <link rel="stylesheet" href="/Honeypot/Frontend/Static/css/Login.css">
 </head>
 <body class="bg-dark text-white">
   <h1 class="text-center mb-4"> SnapVault </h1>
   <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="card p-4 shadow-lg bg-secondary" style="width: 100%; max-width: 400px;">
       <h3 class="text-center mb-4">Login</h3>
-      <form method="POST" action="{{ url_for('login') }}">
+      <form method="POST" action="/Honeypot/Frontend/Templates/Login.html">
         <div class="form-group">
           <label for="username">Username</label>
           <input type="text" class="form-control" id="username" name="username" required>
