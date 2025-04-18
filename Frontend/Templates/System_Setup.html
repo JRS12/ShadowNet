@@ -1,13 +1,12 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>System Setup Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <link rel="stylesheet" href="/Frontend/Statics/css/System_Setup.css">
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></head>
 <body>
     <div class="sidebar">
         <h2>ShadowNet</h2>
@@ -25,7 +24,9 @@
     <div class="main-content">
         <div class="header">
             <h1>System Setup</h1>
+            
         </div>
+        
         <div class="header">
             <div class="top-right-rectangle" id="systemStatus">Safe</div>
         </div>
@@ -37,7 +38,7 @@
             <button class="server-button" id="troubleshootButton" disabled>Troubleshoot</button>
             <div class="attack-info" id="attackInfo"></div>
         </div>
-
+        
         <div class="monitoring-container">
             <div class="monitoring-box">
                 <h2>Web Monitoring</h2>
@@ -48,7 +49,7 @@
                         <span class="slider"></span>
                     </label>
                 </div>
-                <div id="webMonitoringData"></div>
+                <div id="webMonitoringData" style="margin-top: 10px;"></div>
             </div>
             <div class="monitoring-box">
                 <h2>Network Monitoring</h2>
@@ -59,11 +60,11 @@
                         <span class="slider"></span>
                     </label>
                 </div>
-                <div id="networkMonitoringData"></div>
+                <div id="networkMonitoringData" style="margin-top: 10px;"></div>
             </div>
         </div>
-    </div>
 
-    <script src="/Frontend/Statics/js/System_Setup.js"></script>
+        <script src="/Frontend/Statics/js/System_Setup.js"></script>
 </body>
+
 </html>
