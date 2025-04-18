@@ -1,69 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Control Panel - ShadowNet</title>
-  <link rel="stylesheet" href="/Frontend/Statics/css/Contro_Panel.css" />
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowNet Control Panel</title>
+    <link rel="stylesheet" href="/Frontend/Statics/css/Contro_Panel.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></script>
+    
 </head>
-
-<body class="flex">
-  <div class="sidebar">
-    <h2>ShadowNet</h2>
-    <ul>
-      <li class="active" onclick="navigateTo('Control_Panel.html')">
-        <i class="fas fa-tachometer-alt"></i> Control Panel
-      </li>
-      <li onclick="navigateTo('System_Setup.html')">
-        <i class="fas fa-cogs"></i> System Setup
-      </li>
-      <li onclick="navigateTo('Web_Monitoring.html')">
-        <i class="fas fa-eye"></i> Web Monitoring
-      </li>
-      <li onclick="navigateTo('Network_Monitoring.html')">
-        <i class="fas fa-network-wired"></i> Network Monitoring
-      </li>
-      <li onclick="navigateTo('File_Forensics.html')">
-        <i class="fas fa-file-alt"></i> File Forensics
-      </li>
-      <li onclick="navigateTo('Image_Analysis.html')">
-        <i class="fas fa-image"></i> Image Analysis
-      </li>
-      <li onclick="navigateTo('Keystroke_Monitoring.html')">
-        <i class="fas fa-keyboard"></i> Keystroke Monitoring
-      </li>
-    </ul>
-  </div>
-
-  <div class="main-content">
-    <div class="header">
-      <h1>Control Panel</h1>
-      <div class="top-right-rectangle" id="networkStatus">Safe</div>
+<body>
+    <div class="sidebar">
+        <h2>ShadowNet</h2>
+        <ul>
+            <li class="active"><span><i class="fas fa-tachometer-alt"></i> Control Panel</span></li>
+            <li onclick="navigateTo('System_Setup.html')"><span><i class="fas fa-cogs"></i> System Setup</span></li>
+            <li onclick="navigateTo('Web_Monitoring.html')"><span><i class="fas fa-eye"></i> Web Monitoring</span></li>
+            <li onclick="navigateTo('Network_Monitoring.html')"><span><i class="fas fa-network-wired"></i> Network Monitoring</span></li>
+            <li onclick="navigateTo('File_Forensics.html')"><span><i class="fas fa-file-alt"></i> File Forensics</span></li>
+            <li onclick="navigateTo('Image_Analysis.html')"><span><i class="fas fa-image"></i> Image Analysis</span></li>
+            <li onclick="navigateTo('Keystroke_Monitoring.html')"><span><i class="fas fa-keyboard"></i> Keystroke Monitoring</span></li>
+        </ul>
     </div>
+    <div class="main-content">
+        <h1>Control Panel</h1>
+        <div class="dashboard-grid">
+            <div class="dashboard-card" id="attackCard">
+                <h2>Attack Indicator</h2>
+                <p id="attackStatus" class="attack-indicator">SAFE</p>
+            </div>
+            <div class="dashboard-card">
+                <h2>Attack Type</h2>
+                <ul style="text-align: left;">
+                    <li>SQL Injection (40%)</li>
+                    <li>Cross-Site Scripting (XSS) (30%)</li>
+                    <li>Remote Code Execution (15%)</li>
+                    <li>Path Traversal (10%)</li>
+                    <li>Denial of Service (5%)</li>
+                </ul>
+            </div>
+            <div class="dashboard-card">
+                <h2>Threat Level</h2>
+                <div class="gauge-container">
+                    <canvas id="threatGauge"></canvas>
+                </div>
+                <p id="threatText" style="text-align: center; font-weight: bold;">Critical</p>
+            </div>
+            <div class="dashboard-card">
+                <h2>Attack Severity</h2>
+                <div class="gauge-container">
+                    <canvas id="attackGauge"></canvas>
+                </div>
+                <p id="attackText" style="text-align: center; font-weight: bold;">Critical</p>
+            </div>
+        </div>
 
-    <div class="system-health">
-      <div class="gauge-container">
-        <canvas id="gaugeCanvas" width="200" height="200"></canvas>
-        <div class="gauge-label" id="gaugeLabel">0%</div>
-      </div>
+        <h2>System Health Monitoring</h2>
+        <div class="system-health">
+            <div class="health-card" id="cpuCard">
+                <h3>CPU Usage</h3>
+                <p class="health-status" id="cpuStatus">Normal</p>
+                <p>Usage: <span id="cpuUsage">30%</span></p>
+            </div>
+            <div class="health-card" id="ramCard">
+                <h3>RAM Usage</h3>
+                <p class="health-status" id="ramStatus">Normal</p>
+                <p>Usage: <span id="ramUsage">45%</span></p>
+            </div>
+            <div class="health-card" id="networkCard">
+                <h3>Network Traffic</h3>
+                <p class="health-status" id="networkStatus">Normal</p>
+                <p>Traffic: <span id="networkTraffic">200 KB/s</span></p>
+            </div>
+        </div>
+
+        <div class="profile-icon" id="profileIcon">
+            <span id="profileInitials">J</span> 
+        </div>
+        <div class="dropdown" id="profileDropdown">
+            <a href="#" id="accountOption">Account</a>
+            <a href="#" id="lockoutOption">Lockout</a>
+        </div>
     </div>
-
-    <div class="attack-decision">
-      <div class="attack-options">
-        <button onclick="setAttackStatus('UNDER ATTACK')">Trigger Attack</button>
-        <button onclick="setAttackStatus('SAFE')">Mark Safe</button>
-      </div>
+    
+    <div id="accountModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Account Management</h2>
+            <img src="/Frontend/Statics/Images/Default_Profile.avif" alt="Profile" class="profile-picture" id="profilePictureDisplay">
+            <div class="button-container">
+                <button class="save-button" id="viewProfileButton">View Profile Picture</button>
+                <button class="save-button" id="changeProfileButton">Change Profile Picture</button>
+            </div>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" value="JRS 12">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" value="user@example.com">
+            </div>
+            <div class="form-group">
+                <label for="oldPassword">Old Password:</label>
+                <input type="password" id="oldPassword">
+            </div>
+            <div class="form-group">
+                <label for="newPassword">New Password:</label>
+                <input type="password" id="newPassword">
+            </div>
+            <button class="save-button" id="saveButton">Save</button>
+            <input type="file" id="profilePicture" accept="image/*" style="display: none;"> 
+        </div>
     </div>
+    
+    <div id="viewProfileModal" class="view-modal">
+        <span class="close" id="closeViewModal">&times;</span>
+        <h2>Profile Picture</h2>
+        <img src="/Frontend/Statics/Images/Default_Profile.avif" alt="Profile" id="viewProfilePictureDisplay">
+    </div>
+    
+    <div id="attackNotification" class="notification">
+        You are under attack!
+    </div>
+     
+    <script src="https://cdn.jsdelivr.net/npm/gaugeJS/dist/gauge.min.js"></script>
+    <script src="/Frontend/Statics/js/Control_Panel.js"></script>
 
-    <footer class="footer">
-      &copy; 2025 ShadowNet Project. All rights reserved.
-    </footer>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-  <script src="/Frontend/Statics/js/Control_Panel.js"></script>
 </body>
 
 </html>
