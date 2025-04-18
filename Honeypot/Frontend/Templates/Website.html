@@ -11,7 +11,7 @@
 <body>
   <div class="sidebar">
     <img src="/Honeypot/Frontend/Static/Images/Icon.png" class="logo" alt="Logo">
-    <i class="bi bi-house-door active" title="Home" onclick="setActive(this); location.href='Home'"></i>
+    <i class="bi bi-house-door active" title="Home" onclick="setActive(this); location.href='/Website.html'"></i>
     <i class="bi bi-plus-square" title="Create" onclick="setActive(this)" data-toggle="modal" data-target="#uploadModal"></i>
   </div>
 
@@ -28,6 +28,34 @@
         <a href="#" onclick="toggleProfileSection(); return false;">Profile</a>
         <a href="/Honeypot/Frontend/Templates/Login.html">Logout</a>
       </div>
+    </div>
+  </div>
+
+  <div id="profileSection" class="card mt-2">
+    <div class="card-body">
+      <div class="text-center mb-3">
+        <img src="/Honeypot/Frontend/Static/Images/Default-Profile.png" class="rounded-circle" width="80" height="80">
+        <div class="mt-2">
+          <input type="file" class="form-control-file">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" class="form-control" value="@username">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" value="user@example.com">
+      </div>
+      <div class="form-group">
+        <label>Old Password</label>
+        <input type="password" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>New Password</label>
+        <input type="password" class="form-control">
+      </div>
+      <button class="btn btn-primary btn-block">Save</button>
     </div>
   </div>
 
@@ -73,6 +101,14 @@
         <button class="like-btn"><i class="bi bi-heart"></i></button>
       </div>
   </div>
+
+  <div class="text-red-500 font-bold mb-4 border-l-4 border-red-500 pl-2">Home</div>
+  <button onclick="openUploadModal()" class="mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 hover:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+  </button>
+</div>
 
   <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
