@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,108 +8,67 @@
   <link rel="stylesheet" href="/Honeypot/Frontend/Static/css/Website.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  
 </head>
+
 <body>
   <div class="sidebar">
     <img src="/Honeypot/Frontend/Static/Images/Icon.png" class="logo" alt="Logo">
-    <i class="bi bi-house-door active" title="Home" onclick="setActive(this); location.href='/Website.html'"></i>
-    <i class="bi bi-plus-square" title="Create" onclick="setActive(this)" data-toggle="modal" data-target="#uploadModal"></i>
+    <i class="bi bi-house-door active" title="Home"></i>
+    <i class="bi bi-plus-square" title="Create" data-toggle="modal" data-target="#uploadModal"></i>
   </div>
 
   <div class="topbar">
     <h2>SnapVault</h2>
-    <div class="search-bar position-relative">
-      <i class="bi bi-search position-absolute" style="top: 50%; left: 10px; transform: translateY(-50%); color: #aaa;"></i>
-      <input id="searchInput" type="text" placeholder="Search by username" class="form-control pl-4" />
+    <div class="search-bar">
+      <i class="bi bi-search"></i>
+      <input type="text" placeholder="Search by username" class="form-control">
     </div>
-    
+
     <div class="profile-dropdown">
-      <img src="/Honeypot/Frontend/Static/Images/Default-Profile.png" class="profile-icon" onclick="toggleDropdownMenu()" />
+      <img src="/Honeypot/Frontend/Static/Images/Default-Profile.png" class="profile-icon" onclick="toggleDropdownMenu()">
       <div class="profile-menu" id="profileMenu">
-        <a href="#" onclick="toggleProfileSection(); return false;">Profile</a>
-        <a href="/Honeypot/Frontend/Templates/Login.html">Logout</a>
+        <span id="dropdownUsername">@User1</span>
+        <a href="/Honeypot/Templates/Login.html">Logout</a>
       </div>
+
     </div>
+
+
   </div>
 
-  <div id="profileSection" class="card mt-2">
-    <div class="card-body">
-      <div class="text-center mb-3">
-        <img src="/Honeypot/Frontend/Static/Images/Default-Profile.png" class="rounded-circle" width="80" height="80">
-        <div class="mt-2">
-          <input type="file" class="form-control-file">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Username</label>
-        <input type="text" class="form-control" value="@username">
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" class="form-control" value="user@example.com">
-      </div>
-      <div class="form-group">
-        <label>Old Password</label>
-        <input type="password" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>New Password</label>
-        <input type="password" class="form-control">
-      </div>
-      <button class="btn btn-primary btn-block">Save</button>
+  <div class="masonry">
+    <div class="masonry-item">
+      <img src="/Honeypot/Frontend/Static/Images/Sample1.jpg" alt="">
+    </div>
+    <div class="masonry-item">
+      <img src="/Honeypot/Frontend/Static/Images/Sample2.jpg" alt="">
+    </div>
+    <div class="masonry-item">
+      <img src="/Honeypot/Frontend/Static/Images/Sample3.jpg" alt="">
+    </div>
+    <div class="masonry-item">
+      <img src="/Honeypot/Frontend/Static/Images/Sample4.jpg" alt="">
+    </div>
+    <div class="masonry-item">
+      <img src="/Honeypot/Frontend/Static/Images/Sample5.jpg" alt="">
+    </div>
+    <div class="masonry-item">
+      <img src="/Honeypot/Frontend/Static/Images/Sample6.jpg" alt="">
+    </div>
+    <div class="masonry-item">
+      <img src="/Honeypot/Frontend/Static/Images/Sample7.jpg" alt="">
+    </div>
+    <div class="masonry-item">
+      <img src="/Honeypot/Frontend/Static/Images/Sample8.jpg" alt="">
+    </div>
+    <div class="masonry-item">
+      <img src="/Honeypot/Frontend/Static/Images/Sample9.jpg" alt="">
+    </div>
+    <div class="masonry-item">
+      <img src="/Honeypot/Frontend/Static/Images/Sample10.jpg" alt="">
     </div>
   </div>
-
-  <div class="masonry" id="imageGallery">
-    <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample1.jpg" data-caption="Sample Caption 1">
-      <img src="/Honeypot/Frontend/Static/Images/Sample1.jpg" alt="Sample">
-      <button class="like-btn"><i class="bi bi-heart"></i></button>
-    </div>
-    <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample2.jpg" data-caption="Sample Caption 2">
-      <img src="/Honeypot/Frontend/Static/Images/Sample2.jpg" alt="Sample">
-      <button class="like-btn"><i class="bi bi-heart"></i></button>
-    </div>
-    <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample3.jpg" data-caption="Sample Caption 2">
-        <img src="/Honeypot/Frontend/Static/Images/Sample3.jpg" alt="Sample">
-        <button class="like-btn"><i class="bi bi-heart"></i></button>
-      </div>
-      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample4.jpg" data-caption="Sample Caption 2">
-        <img src="/Honeypot/Frontend/Static/Images/Sample4.jpg" alt="Sample">
-        <button class="like-btn"><i class="bi bi-heart"></i></button>
-      </div>
-      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample5.jpg" data-caption="Sample Caption 2">
-        <img src="/Honeypot/Frontend/Static/Images/Sample5.jpg" alt="Sample">
-        <button class="like-btn"><i class="bi bi-heart"></i></button>
-      </div>
-      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample6.jpg" data-caption="Sample Caption 2">
-        <img src="/Honeypot/Frontend/Static/Images/Sample6.jpg" alt="Sample">
-        <button class="like-btn"><i class="bi bi-heart"></i></button>
-      </div>
-      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample7.jpg" data-caption="Sample Caption 2">
-        <img src="/Honeypot/Frontend/Static/Images/Sample7.jpg" alt="Sample">
-        <button class="like-btn"><i class="bi bi-heart"></i></button>
-      </div>
-      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample8.jpg" data-caption="Sample Caption 2">
-        <img src="/Honeypot/Frontend/Static/Images/Sample8.jpg" alt="Sample">
-        <button class="like-btn"><i class="bi bi-heart"></i></button>
-      </div>
-      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample9.jpg" data-caption="Sample Caption 2">
-        <img src="/Honeypot/Frontend/Static/Images/Sample9.jpg" alt="Sample">
-        <button class="like-btn"><i class="bi bi-heart"></i></button>
-      </div>
-      <div class="masonry-item" data-toggle="modal" data-target="#viewModal" data-img="/Honeypot/Static/Images/Sample10.jpg" data-caption="Sample Caption 2">
-        <img src="/Honeypot/Frontend/Static/Images/Sample10.jpg" alt="Sample">
-        <button class="like-btn"><i class="bi bi-heart"></i></button>
-      </div>
-  </div>
-
-  <div class="text-red-500 font-bold mb-4 border-l-4 border-red-500 pl-2">Home</div>
-  <button onclick="openUploadModal()" class="mb-4">
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 hover:text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-    </svg>
-  </button>
-</div>
 
   <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -121,7 +81,7 @@
           <form id="uploadForm">
             <div class="form-group">
               <label for="postImage">Select Image</label>
-              <input type="file" class="form-control-file" id="postImage" required>
+              <input type="file" class="form-control-file" id="postImage" required accept="/">
             </div>
             <div class="form-group">
               <label for="caption">Caption</label>
@@ -137,5 +97,7 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/Honeypot/Frontend/Static/js/Website.js"></script>
+
 </body>
+
 </html>

