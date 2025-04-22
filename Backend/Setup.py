@@ -9,9 +9,12 @@ from datetime import timedelta
 CREDENTIALS_FILE = "Database/Super_User/Super_User.db"
 SECRET_KEY_FILE = "Backend/secret_key.txt"
 
+
 app = Flask(__name__, static_folder="Frontend/Statics", template_folder="Frontend/Templates")
 
+
 def generate_secret_key():
+    os.makedirs(os.path.dirname(SECRET_KEY_FILE), exist_ok=True) 
     if not os.path.exists(SECRET_KEY_FILE):
         secret_key = secrets.token_hex(32)
         with open(SECRET_KEY_FILE, "w") as f:
@@ -21,7 +24,7 @@ def generate_secret_key():
             secret_key = f.read().strip()
     return secret_key
 
-app.secret_key = generate_secret_key()
+app.secret_key = generate_secret_key()  
 
 app.permanent_session_lifetime = timedelta(minutes=30)
 
@@ -73,24 +76,26 @@ def admin_login():
         ):
             session["user"] = username
             session.permanent = True  
-            return redirect(url_for("admin_dashboard"))
+            return redirect(url_for("admin_dashboard"))  
         else:
             return "Invalid username or password. Try again."
 
-    if not os.path.exists(os.path.join(app.template_folder, "admin_login.html")):
-        return "Error: Missing admin_login.html template file."
+    if not os.path.exists(os.path.join(app.template_folder, "Admin-Panel.html")):
+        return "Error: Missing Admin-Panel.html template file."
 
-    return render_template("admin_login.html")
- 
+    return render_template("Admin-Panel.html")
+
+
 @app.route("/dashboard")
 def admin_dashboard():
     if "user" not in session:
-        return redirect(url_for("admin_login"))
+        return redirect(url_for("admin_login"))  
+    if not os.path.exists(os.path.join(app.template_folder, "Control_Panel.html")):
+        return "Error: Missing Control_Panel.html template file."
 
-    if not os.path.exists(os.path.join(app.template_folder, "admin_dashboard.html")):
-        return "Error: Missing admin_dashboard.html template file."
+    return render_template("Control_Panel.html")
 
-    return render_template("admin_dashboard.html")
+ 
  
 if __name__ == "__main__":
     if len(sys.argv) > 1:
