@@ -6,11 +6,16 @@ import secrets
 from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import timedelta
 
-CREDENTIALS_FILE = "Database/Super_User/Super_User.db"
-SECRET_KEY_FILE = "Backend/secret_key.txt"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-app = Flask(__name__, static_folder="Frontend/Statics", template_folder="Frontend/Templates")
+CREDENTIALS_FILE = os.path.join(BASE_DIR, 'Database', 'Super_User', 'Super_User.db')
+SECRET_KEY_FILE = os.path.join(BASE_DIR, 'Backend', 'secret_key.txt')
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'Frontend', 'Templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'Frontend', 'Statics')
+
+app = Flask(__name__, static_folder=os.path.join(BASE_DIR, 'Frontend', 'Statics'),
+                      template_folder=os.path.join(BASE_DIR, 'Frontend', 'Templates'))
 
 
 def generate_secret_key():
@@ -79,7 +84,6 @@ def admin_login():
             return redirect(url_for("admin_dashboard"))  
         else:
             return "Invalid username or password. Try again."
-
     if not os.path.exists(os.path.join(app.template_folder, "Admin-Panel.html")):
         return "Error: Missing Admin-Panel.html template file."
 
@@ -96,7 +100,7 @@ def admin_dashboard():
     return render_template("Control_Panel.html")
 
  
- 
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         command = sys.argv[1]
