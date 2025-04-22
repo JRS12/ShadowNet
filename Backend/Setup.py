@@ -6,8 +6,8 @@ import secrets
 from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import timedelta
 
-CREDENTIALS_FILE = "backend/admin_credentials.json"
-SECRET_KEY_FILE = "backend/secret_key.txt"
+CREDENTIALS_FILE = "Database/Super_User/Super_User.db"
+SECRET_KEY_FILE = "Backend/secret_key.txt"
 
 app = Flask(__name__, static_folder="Frontend/Statics", template_folder="Frontend/Templates")
 
@@ -100,7 +100,7 @@ if __name__ == "__main__":
         elif command == "createsuperuser":
             create_superuser()
         elif command == "runserver":
-            app.run(debug=True, host="0.0.0.0", port=8000)
+            app.run(debug=True, host="127.0.0.1", port=8000)
         else:
             print("Unknown command. Use:")
             print("  python setup.py migrate           # Run database setup")
