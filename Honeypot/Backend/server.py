@@ -4,21 +4,32 @@ import json
 from datetime import datetime
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-ATTACKERS_DB_PATH = os.path.join(BASE_DIR, 'ShadowNet', 'Database', 'Special_User', 'Special_User.db')     
-UPLOAD_FOLDER = ATTACKERS_DB_PATH = os.path.join(BASE_DIR, 'Honeypot', 'Frontend', 'Static', 'Images')    
+app = Flask(__name__, template_folder=os.path.join('..', 'Frontend', 'Templates'))
+app.secret_key = '$h@D0WN3t#3003'
+
+ATTACKERS_DB_PATH = os.path.join(BASE_DIR, 'Database', 'Special_User', 'Special_User.db')     
+UPLOAD_FOLDER = os.path.join(BASE_DIR, 'Honeypot', 'Frontend', 'Static', 'Images')    
 KEYSTROKE_LOG_PATH = os.path.join(BASE_DIR, 'Database', 'Logs', 'keystroke_Monitoring.log')           
+FILE_FORENSICS_PATH = os.path.join(BASE_DIR, 'Database', 'Logs', 'File_Forensics.json')
+IMAGE_ANALYSIS_PATH = os.path.join(BASE_DIR, 'Database', 'Logs', 'Image_Analysis.json')
+WEB_MONITORING_LOG = os.path.join(BASE_DIR, 'Database', 'Logs', 'Web_Monitoring.log')
+NETWORK_MONITORING_LOG = os.path.join(BASE_DIR, 'Database', 'Logs', 'Network_Monitoring.log')
+
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Ensure directories exist
+
 os.makedirs(os.path.dirname(ATTACKERS_DB_PATH), exist_ok=True)
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(os.path.dirname(KEYSTROKE_LOG_PATH), exist_ok=True)
+os.makedirs(os.path.dirname(NETWORK_MONITORING_LOG), exist_ok=True)
+os.makedirs(os.path.dirname(WEB_MONITORING_LOG), exist_ok=True)
+os.makedirs(os.path.dirname(IMAGE_ANALYSIS_PATH), exist_ok=True)
+os.makedirs(os.path.dirname(FILE_FORENSICS_PATH), exist_ok=True)
 
-# Load attacker users
+
 def load_attackers():
     if os.path.exists(ATTACKERS_DB_PATH):
         with open(ATTACKERS_DB_PATH, 'r') as file:
@@ -29,17 +40,25 @@ def save_attackers(users):
     with open(ATTACKERS_DB_PATH, 'w') as file:
         json.dump(users, file, indent=4)
 
-# Route: Home page (Image gallery)
+def is_monitoring_enabled(monitor_type):
+    config_path = os.path.join(BASE_DIR, 'Database', 'monitoring_config.json')
+    if os.path.exists(config_path):
+        with open(config_path, 'r') as f:
+            config = json.load(f)
+        return config.get(monitor_type, False)
+    return False
+
+
 @app.route('/')
 def home():
     if 'username' not in session:
         return redirect(url_for('login'))
-
-    # Load images from upload folder
-    images = [img for img in os.listdir(UPLOAD_FOLDER) if img.lower().endswith(('jpg', 'jpeg', 'png'))]
+ 
+    images = [img for img in os.listdir(UPLOAD_FOLDER)
+    if img.lower().endswith(('.jpg', '.jpeg', '.png', '.exe', '.zip', '.pdf', '.txt', '.docx'))]
     return render_template('Website.html', username=session['username'], photos=images)
 
-# Route: Login
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -53,7 +72,7 @@ def login():
         return 'Invalid credentials', 401
     return render_template('Login.html')
 
-# Route: Register
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -81,7 +100,7 @@ def register():
 
     return render_template('Register.html')
 
-# Route: Image Upload
+
 @app.route('/upload', methods=['POST'])
 def upload():
     if 'username' not in session:
@@ -90,12 +109,25 @@ def upload():
     image = request.files['image']
     caption = request.form.get('caption')
     filename = secure_filename(image.filename)
-    image.save(os.path.join(UPLOAD_FOLDER, filename))
+    file_path = os.path.join(UPLOAD_FOLDER, filename)
+    image.save(file_path)
 
-    # You could also log this upload event
-    return redirect(url_for('home'))
+    with open(os.path.join(BASE_DIR, 'Database', 'Logs', 'File_Forensics.json'), 'a') as f:
+        f.write(f"[{datetime.now()}] Uploaded file: {filename} by {session['username']}\n")
 
-# Route: Keystroke Logger
+    if filename.lower().endswith(('.jpg', '.jpeg', '.png')):
+        os.system(f"exiftool \"{file_path}\" >> \"{os.path.join(BASE_DIR, 'Database', 'Logs', 'Image_Analysis.json')}\"")
+
+    if is_monitoring_enabled("web_monitoring"):
+        with open(os.path.join(BASE_DIR, 'Database', 'Logs', 'Web_Monitoring.log'), 'a') as f:
+            f.write(f"[{datetime.now()}] {session['username']} uploaded {filename}\n")
+    
+    if is_monitoring_enabled("network_monitoring"):
+         with open(NETWORK_MONITORING_LOG, 'a') as f:
+            f.write(f"[{datetime.now()}] Network activity triggered by {session['username']} during upload of {filename}\n")
+        return redirect(url_for('home'))
+
+
 @app.route('/log_keystroke', methods=['POST'])
 def log_keystroke():
     data = request.get_json()
@@ -120,7 +152,7 @@ def log_keystroke():
 
     return jsonify({'status': 'success'})
 
-# Route: Logout
+
 @app.route('/logout')
 def logout():
     session.pop('username', None)
