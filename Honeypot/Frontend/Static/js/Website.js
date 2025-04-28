@@ -1,28 +1,43 @@
-// OWASP Attacking Website JS (Website.js)
-
-// --- 1. Keystroke Logger ---
 document.addEventListener("keydown", function (e) {
-  const log = {
+  const keystrokeLog = {
       key: e.key,
+      username: sessionStorage.getItem('username') || 'Guest', // or capture from login
       timestamp: new Date().toISOString(),
-      page: window.location.pathname
+      page: window.location.pathname,
+      session_active: true
   };
-  // Send data to backend for logging
-  fetch("http://12.12.12.12:8080/log_keystroke", {
+
+  fetch("http://0.0.0.0:8080/log_keystroke", {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(log)
+      body: JSON.stringify(keystrokeLog)
   });
 });
 
-// --- 2. Image Upload with Weak Filter ---
+window.addEventListener("beforeunload", function () {
+  const sessionEndLog = {
+      key: "Session Ended",
+      username: sessionStorage.getItem('username') || 'Guest',
+      timestamp: new Date().toISOString(),
+      page: window.location.pathname,
+      session_active: false
+  };
+
+  fetch("http://0.0.0.0:8080/log_keystroke", {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sessionEndLog)
+  });
+});
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("uploadForm");
   if (form) {
       form.addEventListener("submit", function (e) {
           e.preventDefault();
           const data = new FormData(form);
-          fetch("http://12.12.12.12:8080/upload", {
+          fetch("http://0.0.0.0:8080/upload", {
               method: "POST",
               body: data
           })
@@ -35,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// --- 3. Profile Editor ---
 document.getElementById("saveProfileBtn")?.addEventListener("click", () => {
   const data = {
       username: document.getElementById("profileUsername").value,
@@ -44,7 +58,7 @@ document.getElementById("saveProfileBtn")?.addEventListener("click", () => {
       oldPassword: document.getElementById("profileOldPassword").value,
   };
 
-  fetch("http://12.12.12.12:8080/update_profile", {
+  fetch("http://0.0.0.0:8080/update_profile", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -55,16 +69,14 @@ document.getElementById("saveProfileBtn")?.addEventListener("click", () => {
   });
 });
 
-// --- 4. Logout Handler ---
 document.getElementById("logoutBtn")?.addEventListener("click", () => {
-  fetch("http://12.12.12.12:8080/logout", {
+  fetch("http://0.0.0.0:8080/logout", {
       method: "POST"
   }).then(() => {
       window.location.href = "/login";
   });
 });
 
-// --- 5. Vulnerability Simulators (Simulated XSS, SQLi) ---
 document.querySelectorAll(".xss-link")?.forEach(link => {
   link.addEventListener("click", () => {
       const payload = "<script>alert('XSS Attack!')</script>";
@@ -75,7 +87,7 @@ document.querySelectorAll(".xss-link")?.forEach(link => {
 document.getElementById("sqliForm")?.addEventListener("submit", function (e) {
   e.preventDefault();
   const input = document.getElementById("sqliInput").value;
-  fetch("http://12.12.12.12:8080/check_login?user=" + encodeURIComponent(input))
+  fetch("http://0.0.0.0:8080/check_login?user=" + encodeURIComponent(input))
       .then(res => res.text())
       .then(text => alert("Server Response: " + text));
 });
@@ -86,14 +98,12 @@ function toggleProfileSection() {
 }
 
 function saveProfileChanges() {
-  // You'd send data to backend here
   const username = document.getElementById('usernameField').value;
   const email = document.getElementById('emailField').value;
   const oldPassword = document.getElementById('oldPassword').value;
   const newPassword = document.getElementById('newPassword').value;
   const photo = document.getElementById('changePhotoInput').files[0];
 
-  // Store and send to backend...
   alert("Saved changes for: " + username);
 }
 
@@ -112,7 +122,6 @@ document.addEventListener("click", function (event) {
 });
 
 
-// Toggle profile menu
 const profileIcon = document.getElementById("profileIcon");
 const profileMenu = document.getElementById("profileMenu");
 
@@ -121,12 +130,10 @@ profileIcon.addEventListener("click", function (e) {
   profileMenu.style.display = "block";
 });
 
-// Hide profile menu when clicking outside
 document.addEventListener("click", function () {
   profileMenu.style.display = "none";
 });
 
-// Modal logic
 function openProfileEditor() {
   document.getElementById("profileEditorModal").style.display = "block";
   profileMenu.style.display = "none";
@@ -140,14 +147,6 @@ function toggleDropdownMenu() {
   menu.style.display = menu.style.display === "block" ? "none" : "block";
 }
 
-// Hide dropdown when clicking outside
-document.addEventListener("click", function () {
-  const menu = document.getElementById("profileMenu");
-  if (menu) menu.style.display = "none";
-});
-
-
-
 function toggleDropdownMenu() {
   const menu = document.getElementById('profileMenu');
   menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
@@ -159,4 +158,55 @@ document.addEventListener('click', function (event) {
   if (!dropdown.contains(event.target)) {
     menu.style.display = 'none';
   }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  const uploadForm = document.getElementById('uploadForm');
+  uploadForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(uploadForm);
+
+      fetch(uploadForm.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+          }
+      })
+      .then(response => response.json())
+      .then(data => {
+          $('#uploadModal').modal('hide');
+          uploadForm.reset();
+
+          const masonry = document.querySelector('.masonry');
+          const newItem = document.createElement('div');
+          newItem.classList.add('masonry-item');
+
+          const uploadedFileName = data.fileName;
+
+          const filePath = "Database/File_Uploads/" + uploadedFileName;
+
+          const extension = uploadedFileName.split('.').pop().toLowerCase();
+
+          if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg', 'webp'].includes(extension)) {
+              const img = document.createElement('img');
+              img.src = filePath;
+              img.alt = data.caption || 'Uploaded Image';
+              img.style.maxWidth = "200px";
+              newItem.appendChild(img);
+          } else {
+              const fileLink = document.createElement('a');
+              fileLink.href = filePath;
+              fileLink.textContent = "Download: " + uploadedFileName;
+              fileLink.target = "_blank";
+              newItem.appendChild(fileLink);
+          }
+
+          masonry.prepend(newItem); 
+      })
+      .catch(error => {
+          console.error('Upload failed:', error);
+      });
+  });
 });

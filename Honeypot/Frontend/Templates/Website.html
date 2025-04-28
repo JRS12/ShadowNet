@@ -5,15 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SnapVault - Home</title>
-  <link rel="stylesheet" href="/Honeypot/Frontend/Static/css/Website.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/Website.css') }}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  
 </head>
 
 <body>
   <div class="sidebar">
-    <img src="/Honeypot/Frontend/Static/Images/Icon.png" class="logo" alt="Logo">
+    <img src="{{ url_for('static', filename='Images/Icon.png') }}" class="logo" alt="Logo">
     <i class="bi bi-house-door active" title="Home"></i>
     <i class="bi bi-plus-square" title="Create" data-toggle="modal" data-target="#uploadModal"></i>
   </div>
@@ -26,49 +25,47 @@
     </div>
 
     <div class="profile-dropdown">
-      <img src="/Honeypot/Frontend/Static/Images/Default-Profile.png" class="profile-icon" onclick="toggleDropdownMenu()">
+      <img src="{{ url_for('static', filename='Images/Default-Profile.png') }}" class="profile-icon" onclick="toggleDropdownMenu()">
       <div class="profile-menu" id="profileMenu">
-        <a class="dropdown-item disabled">@{{ username }}</a>
-        <a href="/Honeypot/Frontend/Templates/Login.html">Logout</a>
+        <a class="dropdown-item disabled">{{ session.get('username', 'Guest') }}</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
       </div>
-
     </div>
-
-
   </div>
 
   <div class="masonry">
-    <div class="masonry-item">
-      <img src="/Honeypot/Frontend/Static/Images/Sample1.jpg" alt="">
-    </div>
-    <div class="masonry-item">
-      <img src="/Honeypot/Frontend/Static/Images/Sample2.jpg" alt="">
-    </div>
-    <div class="masonry-item">
-      <img src="/Honeypot/Frontend/Static/Images/Sample3.jpg" alt="">
-    </div>
-    <div class="masonry-item">
-      <img src="/Honeypot/Frontend/Static/Images/Sample4.jpg" alt="">
-    </div>
-    <div class="masonry-item">
-      <img src="/Honeypot/Frontend/Static/Images/Sample5.jpg" alt="">
-    </div>
-    <div class="masonry-item">
-      <img src="/Honeypot/Frontend/Static/Images/Sample6.jpg" alt="">
-    </div>
-    <div class="masonry-item">
-      <img src="/Honeypot/Frontend/Static/Images/Sample7.jpg" alt="">
-    </div>
-    <div class="masonry-item">
-      <img src="/Honeypot/Frontend/Static/Images/Sample8.jpg" alt="">
-    </div>
-    <div class="masonry-item">
-      <img src="/Honeypot/Frontend/Static/Images/Sample9.jpg" alt="">
-    </div>
-    <div class="masonry-item">
-      <img src="/Honeypot/Frontend/Static/Images/Sample10.jpg" alt="">
-    </div>
+      <div class="masonry-item">
+        <img src="{{ url_for('static', filename='images/Sample1.jpg') }}" alt="{{ image }}">
+      </div>
+      <div class="masonry-item">
+        <img src="{{ url_for('static', filename='images/Sample2.jpg') }}" alt="{{ image }}">
+      </div>
+      <div class="masonry-item">
+        <img src="{{ url_for('static', filename='images/Sample3.jpg') }}" alt="{{ image }}">
+      </div>
+      <div class="masonry-item">
+        <img src="{{ url_for('static', filename='images/Sample4.jpg') }}" alt="{{ image }}">
+      </div>
+      <div class="masonry-item">
+        <img src="{{ url_for('static', filename='images/Sample5.jpg') }}" alt="{{ image }}">
+      </div>
+      <div class="masonry-item">
+        <img src="{{ url_for('static', filename='images/Sample6.jpg') }}" alt="{{ image }}">
+      </div>
+      <div class="masonry-item">
+        <img src="{{ url_for('static', filename='images/Sample7.jpg') }}" alt="{{ image }}">
+      </div>
+      <div class="masonry-item">
+        <img src="{{ url_for('static', filename='images/Sample8.jpg') }}" alt="{{ image }}">
+      </div>
+      <div class="masonry-item">
+        <img src="{{ url_for('static', filename='images/Sample9.jpg') }}" alt="{{ image }}">
+      </div>
+      <div class="masonry-item">
+        <img src="{{ url_for('static', filename='images/Sample10.jpg') }}" alt="{{ image }}">
+      </div>
   </div>
+  
 
   <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -78,14 +75,14 @@
           <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
         </div>
         <div class="modal-body">
-          <form id="uploadForm">
+          <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
             <div class="form-group">
               <label for="postImage">Select Image</label>
-              <input type="file" class="form-control-file" id="postImage" required accept="/">
+              <input type="file" class="form-control-file" id="postImage" name="file" required accept="image/*">
             </div>
             <div class="form-group">
               <label for="caption">Caption</label>
-              <input type="text" class="form-control" id="caption" placeholder="Enter caption" required>
+              <input type="text" class="form-control" id="caption" name="caption" placeholder="Enter caption" required>
             </div>
             <button type="submit" class="btn btn-danger btn-block">Share</button>
           </form>
@@ -96,8 +93,7 @@
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="/Honeypot/Frontend/Static/js/Website.js"></script>
-
+  <script src="{{ url_for('static', filename='js/Website.js') }}"></script>
 </body>
 
 </html>

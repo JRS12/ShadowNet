@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Join Our Community</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="/Honeypot/Frontend/Static/css/Register.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/Register.css') }}">
 </head>
 <body>
   <h1 class="text-center mb-4"> SnapVault </h1>
@@ -15,7 +15,7 @@
         <div class="card p-4">
           <h3 class="card-title text-center mb-4">Register</h3>
 
-          <form method="POST" action="/Honeypot/Frontend/Templates/Register.html" enctype="multipart/form-data">
+          <form method="POST" action="{{ url_for('register') }}" enctype="multipart/form-data">
             <div class="form-group">
               <label for="username" class="form-label">Full Name</label>
               <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
@@ -38,7 +38,7 @@
 
             <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
 
-            <p class="text-center text-muted mt-3">Already a member? <a href="/Honeypot/Templates/Login.html">Login here</a></p>
+            <p class="text-center text-muted mt-3">Already a member? <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-sm mt-2">Login Here</a></p>
           </form>
         </div>
       </div>

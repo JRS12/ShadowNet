@@ -12,10 +12,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CREDENTIALS_FILE = os.path.join(BASE_DIR, 'Database', 'Super_User', 'Super_User.db')
 SECRET_KEY_FILE = os.path.join(BASE_DIR, 'Backend', 'secret_key.txt')
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'Frontend', 'Templates')
-STATIC_DIR = os.path.join(BASE_DIR, 'Frontend', 'Statics')
+STATIC_DIR = os.path.join(BASE_DIR, 'Frontend', 'Statics' )
 
-app = Flask(__name__, static_folder=os.path.join(BASE_DIR, 'Frontend', 'Statics'),
-                      template_folder=os.path.join(BASE_DIR, 'Frontend', 'Templates'))
+app = Flask(__name__,  static_folder = STATIC_DIR ,
+                       template_folder = TEMPLATES_DIR )
 
 
 def generate_secret_key():
@@ -99,6 +99,29 @@ def admin_dashboard():
 
     return render_template("Control_Panel.html")
 
+@app.route('/system_setup')
+def system_setup():
+    return render_template("System_Setup.html")
+
+@app.route('/web_monitoring')
+def web_monitoring():
+    return render_template("Web_Monitoring.html")
+
+@app.route('/network_monitoring')
+def network_monitoring():
+    return render_template("Network_Monitoring.html")
+
+@app.route('/file_forensics')
+def file_forensics():
+    return render_template("File_Forensics.html")
+
+@app.route('/image_analysis')
+def image_analysis():
+    return render_template("Image_Analysis.html")
+
+@app.route('/keystroke_monitoring')
+def keystroke_monitoring():
+    return render_template("Keystroke_Monitoring.html")
  
 
 if __name__ == "__main__":
