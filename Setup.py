@@ -143,3 +143,6 @@ if __name__ == "__main__":
         print("  python setup.py migrate           # Run database setup")
         print("  python setup.py createsuperuser   # Create admin user")
         print("  python setup.py runserver         # Start the server")
+
+from Backend.Web_Monitoring import web_monitoring_bp
+app.register_blueprint(web_monitoring_bp)
