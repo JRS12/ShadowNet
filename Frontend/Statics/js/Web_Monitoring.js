@@ -17,7 +17,7 @@ fetch("control_status.json")
 .catch(error => console.error("Error fetching attack status:", error));
 }
 
-setInterval(updateWebStatus, 1000);
+setInterval(updateWebStatus, 5000);
 
 function fetchLogs() {
   fetch('/get_web_logs')

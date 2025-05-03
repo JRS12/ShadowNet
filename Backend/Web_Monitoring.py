@@ -4,7 +4,7 @@ import json
 
 web_monitoring_bp = Blueprint('web_monitoring', __name__)
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-WEB_MONITORING_LOG = os.path.join(BASE_DIR, '..', 'Database', 'Logs', 'Web_Monitoring.log')
+WEB_MONITORING_LOG = os.path.join(BASE_DIR, '..', '..', 'Database', 'Logs', 'Web_Monitoring.json')
 
 @web_monitoring_bp.route('/get_web_logs', methods=['GET'])
 def get_web_logs():
