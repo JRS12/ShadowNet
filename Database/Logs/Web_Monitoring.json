@@ -1,2 +1,2 @@
-{"ip": "127.0.0.1", "date": "2025-05-04", "time": "10:00:00", "userid": "1", "user_agent": "Mozilla", "path": "/", "method": "GET", "code": 200, "session": "abc123"}
-{"ip": "127.0.0.1", "date": "2025-05-04", "time": "10:05:00", "userid": "2", "user_agent": "Mozilla", "path": "/login", "method": "POST", "code": 302, "session": "xyz456"}
+[ {"ip": "127.0.0.1", "date": "2025-05-04", "time": "10:00:00", "userid": "1", "user_agent": "Mozilla", "path": "/", "method": "GET", "code": 200, "session": "abc123"} ,
+{"ip": "127.0.0.1", "date": "2025-05-04", "time": "10:05:00", "userid": "2", "user_agent": "Mozilla", "path": "/login", "method": "POST", "code": 302, "session": "xyz456"} ]

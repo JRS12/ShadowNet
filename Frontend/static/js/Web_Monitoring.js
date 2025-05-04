@@ -1,7 +1,8 @@
 console.log("Web_Monitoring.js loaded");
+
 function fetchLogs() {
-  fetch('/get_web_logs')
-    .then(response => {
+  fetch('/web_monitoring/get_web_logs')
+  .then(response => {
       if (!response.ok) {
         console.error("Failed to fetch logs. Status:", response.status);
         return [];
@@ -10,7 +11,8 @@ function fetchLogs() {
     })
     .then(data => {
       const tbody = document.querySelector("tbody");
-      tbody.innerHTML = "";
+      tbody.innerHTML = ""; // Clear table before inserting updated rows
+
       data.forEach(entry => {
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -32,3 +34,8 @@ function fetchLogs() {
     });
 }
 
+// Run once immediately
+fetchLogs();
+
+// Fetch every 3 seconds (3000 milliseconds)
+setInterval(fetchLogs, 3000);

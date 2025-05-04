@@ -1,22 +1,51 @@
-function navigateTo(page) {
-  window.location.href = page; 
+console.log("Network_Monitoring.js loaded");
+
+function fetchNetworkLogs() {
+  fetch('/network_monitoring/get_network_logs')
+    .then(response => {
+      if (!response.ok) {
+        console.error("Failed to fetch logs. Status:", response.status);
+        return [];
+      }
+      return response.json();
+    })
+    .then(data => {
+      const tbody = document.querySelector("tbody");
+      tbody.innerHTML = ""; 
+
+      data.forEach(entry => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${entry.ip}</td>
+          <td>${entry.username}</td>
+          <td>${entry.timestamp}</td>
+          <td>${entry.message}</td>
+          <td>${entry.protocol}</td>
+          <td>${entry.port}</td>
+          <td>${entry.status}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error("Error loading network logs:", error);
+    });
 }
 
-function updateNetworkStatus() {
-var attackStatus = localStorage.getItem("attackStatus");
-var networkStatus = document.getElementById("networkStatus");
-
-if (attackStatus === "UNDER ATTACK") {
-networkStatus.textContent = "Under Attack";
-networkStatus.classList.add("under-attack");
-networkStatus.style.border = "2px solid red";
-networkStatus.style.boxShadow = "0 0 15px red";
-} else {
-networkStatus.textContent = "Safe";
-networkStatus.classList.remove("under-attack");
-networkStatus.style.border = "2px solid green";
-networkStatus.style.boxShadow = "0 0 15px green";
-}
+function fetchControlStatus() {
+  fetch('/network_monitoring/control_status.json')
+    .then(response => response.json())
+    .then(data => {
+      const indicator = document.getElementById("attack-indicator");
+      if (indicator) {
+        indicator.textContent = data.status === "UNDER_ATTACK" ? "⚠️ UNDER ATTACK" : "✅ SAFE";
+        indicator.style.color = data.status === "UNDER_ATTACK" ? "red" : "green";
+      }
+    });
 }
 
-setInterval(updateNetworkStatus, 1000);
+fetchNetworkLogs();
+fetchControlStatus();
+
+setInterval(fetchNetworkLogs, 3000);      
+setInterval(fetchControlStatus, 1000);    
