@@ -1,0 +1,34 @@
+console.log("Web_Monitoring.js loaded");
+function fetchLogs() {
+  fetch('/get_web_logs')
+    .then(response => {
+      if (!response.ok) {
+        console.error("Failed to fetch logs. Status:", response.status);
+        return [];
+      }
+      return response.json();
+    })
+    .then(data => {
+      const tbody = document.querySelector("tbody");
+      tbody.innerHTML = "";
+      data.forEach(entry => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${entry.ip}</td>
+          <td>${entry.date}</td>
+          <td>${entry.time}</td>
+          <td>${entry.userid}</td>
+          <td>${entry.user_agent}</td>
+          <td>${entry.path}</td>
+          <td>${entry.method}</td>
+          <td>${entry.code}</td>
+          <td>${entry.session}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error("Error parsing logs:", error);
+    });
+}
+

@@ -12,7 +12,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CREDENTIALS_FILE = os.path.join(BASE_DIR, 'Database', 'Super_User', 'Super_User.db')
 SECRET_KEY_FILE = os.path.join(BASE_DIR, 'Backend', 'secret_key.txt')
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'Frontend', 'Templates')
-STATIC_DIR = os.path.join(BASE_DIR, 'Frontend', 'Statics' )
+STATIC_DIR = os.path.join(BASE_DIR, 'Frontend', 'static' )
 
 app = Flask(__name__,  static_folder = STATIC_DIR ,
                        template_folder = TEMPLATES_DIR )
