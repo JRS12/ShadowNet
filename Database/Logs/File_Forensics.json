@@ -1,1 +1,19 @@
-{}
+[
+  {
+    "username": "alice",
+    "email": "alice@example.com",
+    "ip_address": "127.0.0.1",
+    "upload_date": "2025-05-05",
+    "upload_time": "15:23:45",
+    "malicious": 1,
+    "suspicious": 0,
+    "harmless": 0,
+    "type_description": "text file",
+    "file_type": "txt",
+    "meaningful_name": "malware_test.txt",
+    "detection_ratio": "1/60",
+    "scan_date": "2025-05-05",
+    "reputation": 0,
+    "tags": ["malicious"]
+  }
+]

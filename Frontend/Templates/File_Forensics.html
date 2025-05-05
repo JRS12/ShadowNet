@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Forensics Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/File_Forensics.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/File_Forensics.css') }}">
 </head>
 <body>
     <div class="sidebar">
@@ -33,66 +32,31 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Size (KB)</th>
-                            <th>Type of File</th>
-                            <th>Name</th>
-                            <th>Scan Total</th>
-                            <th>Reputation</th>
-                            <th>TLSH</th>
-                            <th>Last Analysis Stats</th>
-                            <th>Times Submitted</th>
-                            <th>SHA-256</th>
-                            <th>Last Submission Date</th>
-                            <th>Type Tag</th>
-                            <th>TRiD</th>
-                            <th>Unique Source</th>
-                            <th>Meaningful Name</th>
-                            <th>Tags</th>
-                            <th>Last Modification Date</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>IP Address</th>
+                            <th>Upload Date</th>
+                            <th>Upload Time</th>
+                            <th>Malicious</th>
+                            <th>Suspicious</th>
+                            <th>Harmless</th>
                             <th>Type Description</th>
-                            <th>Magic</th>
-                            <th>First Submission Date</th>
-                            <th>SHA-1</th>
-                            <th>Last Analysis Date</th>
-                            <th>Type Extension</th>
-                            <th>Magika</th>
-                            <th>SSDEEP</th>
+                            <th>File Type</th>
+                            <th>Meaningful Name</th>
+                            <th>Detection Ratio</th>
+                            <th>Scan Date</th>
+                            <th>Reputation</th>
+                            <th>Tags</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>512</td>
-                            <td>Executable</td>
-                            <td>malware.exe</td>
-                            <td>64</td>
-                            <td>Low</td>
-                            <td>ABC123</td>
-                            <td>Clean</td>
-                            <td>10</td>
-                            <td>XYZ789</td>
-                            <td>2025-03-30</td>
-                            <td>PE32</td>
-                            <td>EXE</td>
-                            <td>2</td>
-                            <td>Trojan.Win32</td>
-                            <td>Virus, Malware</td>
-                            <td>2025-03-29</td>
-                            <td>Windows Executable</td>
-                            <td>MZ Header</td>
-                            <td>2025-03-28</td>
-                            <td>DEF456</td>
-                            <td>2025-03-30</td>
-                            <td>exe</td>
-                            <td>PE File</td>
-                            <td>GHI789</td>
-                        </tr>
+                        
                     </tbody>
                 </table>
             </div>
         </div>
         
-        <script src="{{ url_for('static', filename='js/File_Forensics.js') }}"></script>
-        
+        <script src="{{ url_for ('static', filename='js/File_Forensics.js') }}"></script>
+    
 </body>
-
 </html>

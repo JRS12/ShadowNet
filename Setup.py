@@ -7,6 +7,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import timedelta
 from Backend.Web_Monitoring import web_monitoring_bp
 from Backend.Network_Monitoring import network_monitoring_bp 
+from Backend.File_Forensics import file_forensics
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -20,6 +21,7 @@ app = Flask(__name__,  static_folder = STATIC_DIR ,
                        template_folder = TEMPLATES_DIR )
 app.register_blueprint(web_monitoring_bp, url_prefix='/web_monitoring') 
 app.register_blueprint(network_monitoring_bp, url_prefix='/network_monitoring')
+app.register_blueprint(file_forensics, url_prefix='/file_forensic')
 
 def generate_secret_key():
     os.makedirs(os.path.dirname(SECRET_KEY_FILE), exist_ok=True) 
@@ -147,5 +149,4 @@ if __name__ == "__main__":
         print("  python setup.py createsuperuser   # Create admin user")
         print("  python setup.py runserver         # Start the server")
 
-from Backend.Web_Monitoring import web_monitoring_bp
-app.register_blueprint(web_monitoring_bp)
+

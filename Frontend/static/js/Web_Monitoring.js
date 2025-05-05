@@ -11,7 +11,7 @@ function fetchLogs() {
     })
     .then(data => {
       const tbody = document.querySelector("tbody");
-      tbody.innerHTML = ""; // Clear table before inserting updated rows
+      tbody.innerHTML = ""; 
 
       data.forEach(entry => {
         const row = document.createElement("tr");
@@ -34,8 +34,6 @@ function fetchLogs() {
     });
 }
 
-// Run once immediately
 fetchLogs();
 
-// Fetch every 3 seconds (3000 milliseconds)
 setInterval(fetchLogs, 3000);
