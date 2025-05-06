@@ -1,6 +1,7 @@
 {
-    "status": "UNDER ATTACK",
-    "attack_type": "SQL Injection",
-    "last_updated": "2025-05-07 14:32:10"
-  }
-  
+  "status": "UNDER ATTACK",
+  "attack_type": "SQL Injection",
+  "severity_score": 9,
+  "threat_score": 8,
+  "last_updated": "2025-05-07 16:10:35"
+}

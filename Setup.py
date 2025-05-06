@@ -5,6 +5,7 @@ import json
 import secrets
 from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import timedelta 
+from Backend.Control_Panel import control_status_bp
 from Backend.System_Setup import system_setup_bp
 from Backend.Web_Monitoring import web_monitoring_bp
 from Backend.Network_Monitoring import network_monitoring_bp 
@@ -21,6 +22,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'Frontend', 'static' )
 
 app = Flask(__name__,  static_folder = STATIC_DIR ,
                        template_folder = TEMPLATES_DIR )
+app.register_blueprint(control_status_bp, url_prefix='/control')
 app.register_blueprint(system_setup_bp, url_prefix='/system')
 app.register_blueprint(web_monitoring_bp, url_prefix='/web_monitoring') 
 app.register_blueprint(network_monitoring_bp, url_prefix='/network_monitoring')

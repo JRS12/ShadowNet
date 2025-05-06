@@ -25,13 +25,13 @@ var threatGauge = new Gauge(document.getElementById('threatGauge')).setOptions(o
 threatGauge.maxValue = 10;
 threatGauge.setMinValue(0);
 threatGauge.animationSpeed = 64;
-threatGauge.set(9);
+threatGauge.set(0);
 
 var attackGauge = new Gauge(document.getElementById('attackGauge')).setOptions(opts);
 attackGauge.maxValue = 10;
 attackGauge.setMinValue(0);
 attackGauge.animationSpeed = 64;
-attackGauge.set(9);
+attackGauge.set(0);
 
 function updateAttackStatus(status) {
 localStorage.setItem("attackStatus", status); 
@@ -171,3 +171,37 @@ setInterval(updateSystemHealth, 2000);
 
 setTimeout(() => setAttackStatus("UNDER ATTACK"), 10000);
 
+function updateControlPanelStatus() {
+  fetch('/control/get_control_status')
+      .then(response => response.json())
+      .then(data => {
+          const status = data.status || "SAFE";
+          const attackType = data.attack_type || "None";
+          const severity = data.severity_score || 0;
+          const threat = data.threat_score || 0;
+          const lastUpdated = data.last_updated || "N/A";
+
+          setAttackStatus(status);
+
+          const attackTypeHTML = `
+              <strong>${attackType}</strong><br>
+              Last Updated: ${lastUpdated}
+          `;
+          document.querySelector(".dashboard-card:nth-child(2) ul").innerHTML = `<li>${attackTypeHTML}</li>`;
+
+          attackGauge.set(severity);
+          threatGauge.set(threat);
+
+          document.getElementById("attackText").textContent = getSeverityLabel(severity);
+          document.getElementById("threatText").textContent = getSeverityLabel(threat);
+      });
+}
+
+function getSeverityLabel(score) {
+  if (score <= 3) return "Low";
+  if (score <= 5) return "Medium";
+  if (score <= 8) return "High";
+  return "Critical";
+}
+
+setInterval(updateControlPanelStatus, 2000);
