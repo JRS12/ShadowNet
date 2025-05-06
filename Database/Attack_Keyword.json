@@ -1,55 +1,85 @@
 {
-    "SQL Injection": [
+  "SQL Injection": {
+    "keywords": [
       "' OR '1'='1", "' OR 1=1 --", "'; DROP", "' UNION SELECT",
       "' AND 1=1", "'; EXEC", "\" OR \"\"=\"", "admin'--",
       "OR 1=1#", "' OR 'a'='a"
     ],
-    
-    "XSS": [
+    "threat_score": 9,
+    "severity_score": 9
+  },
+  "XSS": {
+    "keywords": [
       "<script>", "<img src=x onerror=alert(1)>", "javascript:",
       "onerror=", "onload=", "alert(", "<iframe", "<svg/onload=",
       "<body onload=", "<marquee>"
     ],
-
-    "Command Injection": [
+    "threat_score": 7,
+    "severity_score": 6
+  },
+  "Command Injection": {
+    "keywords": [
       "; ls", "&& whoami", "| nc", "$(uname)", "`cat /etc/passwd`",
       "& ping", "; shutdown", "; rm -rf", "curl http://", "| bash"
     ],
-
-    "Path Traversal": [
+    "threat_score": 10,
+    "severity_score": 10
+  },
+  "Path Traversal": {
+    "keywords": [
       "../", "..\\", "/etc/passwd", "boot.ini", "System32", "../../",
       "../../../../", "../web.config", "/root/", "C:\\Windows\\"
     ],
-
-    "IDOR": [
+    "threat_score": 8,
+    "severity_score": 7
+  },
+  "IDOR": {
+    "keywords": [
       "id=", "user=", "accountId=", "profileId=", "/profile?id=",
       "/view?user=", "/invoice?num=", "uid=", "account=", "edit?id="
     ],
-
-    "File Upload": [
+    "threat_score": 6,
+    "severity_score": 5
+  },
+  "File Upload": {
+    "keywords": [
       ".php", ".jsp", ".exe", ".sh", ".bat", "<script>", ".aspx",
       ".py", "Content-Type: image", "application/octet-stream"
     ],
-
-    "LFI": [
+    "threat_score": 9,
+    "severity_score": 8
+  },
+  "LFI": {
+    "keywords": [
       "?file=", "../../", "etc/passwd", "boot.ini", "/proc/self/environ",
       "../log.txt", "/var/log/", "/etc/hosts", "access.log", "../..\\"
     ],
-
-    "Broken Auth": [
+    "threat_score": 8,
+    "severity_score": 8
+  },
+  "Broken Auth": {
+    "keywords": [
       "admin", "root", "guest", "test", "password", "admin123",
       "123456", "letmein", "login.php", "signin"
     ],
-
-    "Sensitive Data": [
+    "threat_score": 7,
+    "severity_score": 7
+  },
+  "Sensitive Data": {
+    "keywords": [
       "API_KEY=", "token=", "password=", "Authorization: Bearer",
       ".env", "secret=", "access_token", "client_secret", "auth_token", "credentials.json"
     ],
-
-    "Clickjacking": [
+    "threat_score": 8,
+    "severity_score": 8
+  },
+  "Clickjacking": {
+    "keywords": [
       "frame", "iframe", "object", "embed", "style='opacity:0'",
       "z-index:9999", "position:absolute", "top:0", "left:0", "<div style",
       "transparent overlay"
-    ]
+    ],
+    "threat_score": 5,
+    "severity_score": 4
   }
-  
+}
