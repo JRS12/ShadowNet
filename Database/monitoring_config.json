@@ -1,5 +1,4 @@
 {
-    "web_monitoring": true,
-    "network_monitoring": true
-  }
-  
+    "web_monitoring": false,
+    "network_monitoring": false
+}
