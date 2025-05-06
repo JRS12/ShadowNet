@@ -1,19 +1,15 @@
 [
   {
-    "username": "alice",
-    "email": "alice@example.com",
-    "ip_address": "127.0.0.1",
+    "username": "test_user",
+    "email": "test@example.com",
+    "ip": "192.168.1.5",
     "upload_date": "2025-05-05",
-    "upload_time": "15:23:45",
+    "upload_time": "13:45:02",
     "malicious": 1,
     "suspicious": 0,
-    "harmless": 0,
-    "type_description": "text file",
-    "file_type": "txt",
-    "meaningful_name": "malware_test.txt",
-    "detection_ratio": "1/60",
-    "scan_date": "2025-05-05",
-    "reputation": 0,
-    "tags": ["malicious"]
+    "type_description": "PDF document",
+    "meaningful_name": "invoice.pdf",
+    "file_type": "application/pdf",
+    "engine_results": "ClamAV: Clean, McAfee: Malicious"
   }
 ]

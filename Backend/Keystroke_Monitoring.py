@@ -1,46 +1,41 @@
 from flask import Blueprint, jsonify
+import os
 import json
 from datetime import datetime
 
-keystroke_monitoring = Blueprint('keystroke_monitoring', __name__)
+keystroke_monitoring_bp = Blueprint('keystroke', __name__)
 
-@keystroke_monitoring.route('/get_keystroke_logs')
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+KEYSTROKE_LOG = os.path.join(BASE_DIR, '..', 'Database', 'Logs', 'Keystroke_Monitoring.json')
+CONTROL_STATUS = os.path.join(BASE_DIR, '..', 'Database', 'control_status.json')
+KEYWORD_DB = os.path.join(BASE_DIR, '..', 'Database', 'Attack_Keywords.json')
+
+@keystroke_monitoring_bp.route('/get_keystroke_logs')
 def get_keystroke_logs():
+    logs = []
     try:
-        with open('ShadowNet\Database\Logs\keystroke_Monitoring.json', 'r') as f:
-            logs = json.load(f)
-
-        with open('ShadowNet\Database\Attack_Keyword.json', 'r') as f:
-            keywords = json.load(f)
-
-        attack_detected = False
-        attack_type = "None"
-
-        for log in logs:
-            keystroke = log.get("keystroke", "").lower()
-            for attack, keys in keywords.items():
-                for keyword in keys:
-                    if keyword.lower() in keystroke:
-                        attack_detected = True
-                        attack_type = attack
-                        log["attack_status"] = "UNDER ATTACK"
-                        log["attack_type"] = attack
-                        break
-                if attack_detected:
-                    break
-            if not attack_detected:
-                log["attack_status"] = "SAFE"
-                log["attack_type"] = "None"
-
-        control_status = {
-            "status": "UNDER ATTACK" if attack_detected else "SAFE",
-            "type": attack_type,
-            "last_checked": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        }
-        with open('ShadowNet\Database\control_status.json', 'w') as f:
-            json.dump(control_status, f, indent=4)
-
-        return jsonify(logs)
-
+        if os.path.exists(KEYSTROKE_LOG):
+            with open(KEYSTROKE_LOG, 'r') as f:
+                content = json.load(f)
+                for entry in content:
+                    logs.append({
+                        "username": entry.get("user"),
+                        "ip_address": entry.get("ip", "N/A"),
+                        "date": entry.get("timestamp", "").split(" ")[0],
+                        "time": entry.get("timestamp", "").split(" ")[1] if " " in entry.get("timestamp", "") else "",
+                        "keystroke": entry.get("key"),
+                        "attack_type": entry.get("attack_type", "")
+                    })
     except Exception as e:
-        return jsonify({"error": str(e)})
+        return jsonify({"error": str(e)}), 500
+    return jsonify(logs)
+
+@keystroke_monitoring_bp.route('/control_status.json')
+def serve_control_status():
+    try:
+        if os.path.exists(CONTROL_STATUS):
+            with open(CONTROL_STATUS) as f:
+                return jsonify(json.load(f))
+    except Exception as e:
+        return jsonify({"status": "SAFE", "error": str(e)})
+    return jsonify({"status": "SAFE"})

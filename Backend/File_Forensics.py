@@ -1,28 +1,40 @@
 from flask import Blueprint, jsonify
-import json
 import os
+import json
 
-file_forensics = Blueprint('file_forensics', __name__, template_folder='../Frontend/templates', static_folder='../Frontend/static')
+file_forensics_bp = Blueprint('file_forensics', __name__)
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-LOG_PATH = os.path.join(BASE_DIR, '..', 'Database', 'Logs', 'File_Forensics.json')
-CONTROL_STATUS_PATH = os.path.join(BASE_DIR, '..', 'Database', 'control_status.json')
+FILE_FORENSICS_LOG = os.path.join(BASE_DIR, '..', 'Database', 'Logs', 'File_Forensics.json')
+CONTROL_STATUS_FILE = os.path.join(BASE_DIR, '..', 'Database', 'control_status.json')
 
-@file_forensics.route('/get_file_forensics_data', methods=['GET'])
-def get_file_forensics_data():
-    try:
-        with open(LOG_PATH, 'r') as log_file:
-            data = json.load(log_file)
-        return jsonify(data)
-    except Exception as e:
-        return jsonify({"error": str(e)})
+@file_forensics_bp.route('/get_file_logs', methods=['GET'])
+def get_file_logs():
+    logs = []
+    print(f"[DEBUG] Reading: {FILE_FORENSICS_LOG}")
+    if os.path.exists(FILE_FORENSICS_LOG):
+        try:
+            with open(FILE_FORENSICS_LOG, 'r') as f:
+                content = f.read()
+                if content.strip().startswith('['):
+                    logs = json.loads(content)
+                else:
+                    for line in content.strip().splitlines():
+                        try:
+                            logs.append(json.loads(line))
+                        except json.JSONDecodeError:
+                            continue
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+    return jsonify(logs)
 
-@file_forensics.route('/get_control_status', methods=['GET'])
-def get_control_status():
-    try:
-        with open(CONTROL_STATUS_PATH, 'r') as file:
-            status = json.load(file)
-        return jsonify(status)
-    except Exception as e:
-        return jsonify({"error": str(e)})
-
+@file_forensics_bp.route('/control_status.json', methods=['GET'])
+def serve_control_status_file_forensics():
+    if os.path.exists(CONTROL_STATUS_FILE):
+        try:
+            with open(CONTROL_STATUS_FILE) as f:
+                data = json.load(f)
+                return jsonify(data)
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+    return jsonify({"status": "SAFE"})
