@@ -61,3 +61,4 @@ def get_control_status():
             status = json.load(f)
         return jsonify(status)
     return jsonify({"status": "SAFE"})
+

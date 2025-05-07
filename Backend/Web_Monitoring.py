@@ -39,3 +39,15 @@ def serve_control_status():
         except Exception as e:
             return jsonify({"error": str(e)}), 500
     return jsonify({"status": "SAFE"})
+
+@web_monitoring_bp.route('/get_monitoring_config', methods=['GET'])
+def get_monitoring_config():
+    config_path = os.path.join(BASE_DIR, '..', 'Database', 'monitoring_config.json')
+    if os.path.exists(config_path):
+        try:
+            with open(config_path, 'r') as f:
+                config = json.load(f)
+                return jsonify(config)
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+    return jsonify({"web_monitoring": False})

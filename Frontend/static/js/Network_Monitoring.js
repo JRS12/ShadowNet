@@ -32,20 +32,25 @@ function fetchNetworkLogs() {
     });
 }
 
-function fetchControlStatus() {
-  fetch('/network_monitoring/control_status.json')
-    .then(response => response.json())
-    .then(data => {
-      const indicator = document.getElementById("attack-indicator");
-      if (indicator) {
-        indicator.textContent = data.status === "UNDER_ATTACK" ? "⚠️ UNDER ATTACK" : "✅ SAFE";
-        indicator.style.color = data.status === "UNDER_ATTACK" ? "red" : "green";
-      }
-    });
-}
 
 fetchNetworkLogs();
-fetchControlStatus();
 
-setInterval(fetchNetworkLogs, 3000);      
-setInterval(fetchControlStatus, 1000);    
+setInterval(fetchNetworkLogs, 3000); 
+
+function fetchControlStatus() {
+  fetch('/control/get_control_status')
+    .then(response => response.json())
+    .then(data => {
+      const indicator = document.getElementById("attackIndicator");
+      if (!indicator) return;
+
+      const status = data.status || "SAFE";
+      indicator.textContent = status === "UNDER ATTACK" ? "⚠️ UNDER ATTACK" : "✅ SAFE";
+      indicator.style.color = status === "UNDER ATTACK" ? "red" : "green";
+    })
+    .catch(error => console.error("Error fetching control status:", error));
+}
+
+setInterval(fetchControlStatus, 1000);
+window.onload = fetchControlStatus;
+

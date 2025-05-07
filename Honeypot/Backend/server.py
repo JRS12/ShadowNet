@@ -20,11 +20,10 @@ USER_ID_COUNTER = 0
 user_request_times = {}
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-ATTACKERS_DB_PATH = os.path.join(PROJECT_ROOT, 'Database', 'Special_User' , 'Special_User.db' )
-UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, 'Database', 'File_Uploads')
+ATTACKERS_DB_PATH = os.path.join(PROJECT_ROOT, 'Database', 'Special_User' , 'Special_User' )
+UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, 'Database', 'File_Uploads.db')
 KEYSTROKE_LOG_PATH = os.path.join(PROJECT_ROOT, 'Database', 'Logs', 'keystroke_Monitoring.log')
 FILE_FORENSICS_PATH = os.path.join(PROJECT_ROOT, 'Database', 'Logs', 'File_Forensics.json')
-IMAGE_ANALYSIS_PATH = os.path.join(PROJECT_ROOT, 'Database', 'Logs', 'Image_Analysis.json')
 WEB_MONITORING_LOG = os.path.join(PROJECT_ROOT, 'Database', 'Logs', 'Web_Monitoring.log')
 NETWORK_MONITORING_LOG = os.path.join(PROJECT_ROOT, 'Database', 'Logs', 'Network_Monitoring.log')
 VIRUS_TOTAL_API_KEY = os.getenv('VIRUS_TOTAL_API_KEY', '2fcbb9571c50d7632b33d1f040115275a1ebcf37e8c7b0455f52b8ec6bc19143')
@@ -37,7 +36,6 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(os.path.dirname(KEYSTROKE_LOG_PATH), exist_ok=True)
 os.makedirs(os.path.dirname(NETWORK_MONITORING_LOG), exist_ok=True)
 os.makedirs(os.path.dirname(WEB_MONITORING_LOG), exist_ok=True)
-os.makedirs(os.path.dirname(IMAGE_ANALYSIS_PATH), exist_ok=True)
 os.makedirs(os.path.dirname(FILE_FORENSICS_PATH), exist_ok=True)
 
 def load_attackers():

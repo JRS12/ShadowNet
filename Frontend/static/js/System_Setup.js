@@ -20,7 +20,7 @@ document.getElementById('stopServerButton').onclick = function() {
 
 document.getElementById('troubleshootButton').onclick = function() {
   var attackInfo = document.getElementById("attackInfo");
-  attackInfo.textContent = "Attacking IP: http://0.0.0.0:8080";
+  attackInfo.textContent = "Attacking IP: http://127.0.0.1:8080";
 }
 
 document.getElementById('webMonitoringToggle').addEventListener('change', function() {
@@ -144,18 +144,11 @@ document.getElementById('stopServerButton').addEventListener('click', function (
     .then(data => console.log("Server stopped:", data.status));
 });
 
-document.getElementById('webMonitoringToggle').addEventListener('change', function () {
-  fetch('/system/toggle_monitoring', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: "web_monitoring", enabled: this.checked })
-  });
-});
-
-document.getElementById('networkMonitoringToggle').addEventListener('change', function () {
-  fetch('/system/toggle_monitoring', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: "network_monitoring", enabled: this.checked })
-  });
-});
+window.onload = function () {
+  fetch('/system/get_monitoring_config')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('webMonitoringToggle').checked = data.web_monitoring || false;
+      document.getElementById('networkMonitoringToggle').checked = data.network_monitoring || false;
+    });
+}
