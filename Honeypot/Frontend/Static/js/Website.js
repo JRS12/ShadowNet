@@ -209,5 +209,95 @@ document.addEventListener('DOMContentLoaded', function() {
           console.error('Upload failed:', error);
       });
   });
+});// ========== Keystroke Monitoring and Attack Keyword Matching ==========
+document.addEventListener("keydown", function (e) {
+  const key = e.key;
+
+  fetch("/log_keystroke", {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      key: key,
+      timestamp: new Date().toISOString(),
+    }),
+  });
 });
+
+window.addEventListener("beforeunload", function () {
+  fetch("/log_keystroke", {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      key: "Session Ended",
+      timestamp: new Date().toISOString(),
+    }),
+  });
+});
+
+// ========== File Upload ==========
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("uploadForm");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const data = new FormData(form);
+
+      fetch("/upload", {
+        method: "POST",
+        body: data
+      })
+        .then(res => res.json())
+        .then(res => {
+          alert(res.message || "File uploaded!");
+          window.location.reload();
+        })
+        .catch(err => {
+          console.error("Upload failed:", err);
+        });
+    });
+  }
+});
+
+// ========== Profile Section ==========
+document.getElementById("saveProfileBtn")?.addEventListener("click", () => {
+  const data = {
+    username: document.getElementById("profileUsername").value,
+    email: document.getElementById("profileEmail").value,
+    newPassword: document.getElementById("profileNewPassword").value,
+    oldPassword: document.getElementById("profileOldPassword").value,
+  };
+
+  fetch("/update_profile", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message || "Profile updated.");
+    });
+});
+
+document.getElementById("logoutBtn")?.addEventListener("click", () => {
+  fetch("/logout", { method: "POST" })
+    .then(() => { window.location.href = "/login"; });
+});
+
+// ========== XSS Simulation ==========
+document.querySelectorAll(".xss-link")?.forEach(link => {
+  link.addEventListener("click", () => {
+    const payload = "<script>alert('XSS Attack!')</script>";
+    document.getElementById("vulnerableOutput").innerHTML = payload;
+  });
+});
+
+// ========== SQL Injection Form ==========
+document.getElementById("sqliForm")?.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const input = document.getElementById("sqliInput").value;
+  fetch("/check_login?user=" + encodeURIComponent(input))
+    .then(res => res.text())
+    .then(text => alert("Server Response: " + text));
+});
+
 

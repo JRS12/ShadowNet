@@ -22,7 +22,7 @@ user_request_times = {}
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 ATTACKERS_DB_PATH = os.path.join(PROJECT_ROOT, 'Database', 'Special_User' , 'Special_User.db' )
 UPLOAD_FOLDER = os.path.join(PROJECT_ROOT, 'Database', 'File_Uploads')
-KEYSTROKE_LOG_PATH = os.path.join(PROJECT_ROOT, 'Database', 'Logs', 'keystroke_Monitoring.log')
+KEYSTROKE_LOG_PATH = os.path.join(PROJECT_ROOT, 'Database', 'Logs', 'keystroke_Monitoring.json')
 FILE_FORENSICS_PATH = os.path.join(PROJECT_ROOT, 'Database', 'Logs', 'File_Forensics.json')
 IMAGE_ANALYSIS_PATH = os.path.join(PROJECT_ROOT, 'Database', 'Logs', 'Image_Analysis.json')
 WEB_MONITORING_LOG = os.path.join(PROJECT_ROOT, 'Database', 'Logs', 'Web_Monitoring.log')
@@ -324,3 +324,70 @@ def logout():
 if __name__ == '__main__': 
     app.run(host='0.0.0.0', port=8080, debug=True)
 
+@app.route('/log_keystroke', methods=['POST'])
+def log_keystroke():
+    data = request.get_json()
+    key = data.get("key")
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    username = session.get('username', 'Anonymous')
+    ip = request.remote_addr
+
+    log_entry = {
+        "user": username,
+        "ip": ip,
+        "timestamp": timestamp,
+        "key": key,
+        "attack_type": "None"
+    }
+
+    attack_type = "None"
+    severity = 0
+    threat = 0
+    matched = False
+
+    keyword_path = os.path.join(PROJECT_ROOT, 'Database', 'Attack_Keyword.json')
+    control_path = os.path.join(PROJECT_ROOT, 'Database', 'control_status.json')
+    keystroke_log_path = os.path.join(PROJECT_ROOT, 'Database', 'Logs', 'keystroke_Monitoring.json')
+
+    if os.path.exists(keyword_path):
+        with open(keyword_path) as f:
+            attack_keywords = json.load(f)
+            for atype, keywords in attack_keywords.items():
+                if isinstance(keywords, dict):  # if threat_score and severity_score included
+                    words = keywords.get("keywords", [])
+                else:
+                    words = keywords
+                if any(k.lower() in key.lower() for k in words):
+                    attack_type = atype
+                    matched = True
+                    severity = keywords.get("severity_score", 7)
+                    threat = keywords.get("threat_score", 6)
+                    break
+
+    log_entry["attack_type"] = attack_type
+
+    # Save to keystroke log
+    logs = []
+    if os.path.exists(keystroke_log_path):
+        with open(keystroke_log_path, 'r') as f:
+            try:
+                logs = json.load(f)
+            except:
+                logs = []
+
+    logs.append(log_entry)
+    with open(keystroke_log_path, 'w') as f:
+        json.dump(logs, f, indent=4)
+
+    # Update control status
+    control_status = {
+        "status": "UNDER ATTACK" if matched else "SAFE",
+        "attack_type": attack_type if matched else "None",
+        "severity_score": severity,
+        "threat_score": threat,
+        "last_updated": timestamp
+    }
+    with open(control_path, 'w') as f:
+        json.dump(control_status, f, indent=4)
+
+    return jsonify({"status": "logged"})
